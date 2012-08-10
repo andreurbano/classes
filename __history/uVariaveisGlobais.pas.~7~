@@ -1,0 +1,758 @@
+unit uVariaveisGlobais;
+
+interface
+
+uses MidasLib,
+     Inifiles,
+     Classes,
+     DBTables,
+     SqlExpr,
+     Winsock,
+     SysUtils,
+     Forms,
+     ExtCtrls,
+     Controls,
+     DB,
+     Windows;
+
+type
+
+  TFormulario = record
+    FormClasse: TComponentClass;
+    FormNome:   String;
+    FormVar:    TForm;
+  end;
+
+  TUsuario = Record
+    Codigo:       Integer;
+    Apelido:      String;
+    User:         String;
+    Grupo:        Integer;
+    GrupoDesc:    String;
+    Resp:         String;
+    Priv:         WideString;
+    LogEntrou:    Double;
+    Senha:        String;
+    Modulo:       String;
+    Email:        String;
+  end;
+
+  TConexaoBD = Record
+    Autenticacao: string;
+    Host:         string;
+    DriverName:   string;
+    NomeBD:       string;
+    Login:        string;
+    Senha:        string;
+    OSAuthent:    string;
+  end;
+
+  TCobranca = Record
+    ID_Cobranca:      Integer;
+    ID_Cliente:       Integer;
+    Cod_Banco:        String;
+    Linha_Digitavel:  String;
+    Local_Pagmento:   String;
+    Dt_Vencimento:    TDate;
+    CedenteNome:      String;
+    Cedente_Ag_Cod:   String;
+    Dt_Documento:     TDate;
+    Num_Documento:    String;
+    Especie_Doc:      String;
+    Aceite:           String;
+    Dt_Processamento: TDate;
+    NossoNumero:      String;
+    Carteira:         String;
+    Especie:          String;
+    Quantidade:       Double;
+    Valor:            Double;
+    Valor_Documento:  Double;
+    Instrucoes:       String; // Verificar troca do tipo para StringList
+    Desc_Abat:        Double;
+    Mora_Multa:       Double;
+    Valor_Cobrado:    Double;
+    Sacado_Nome:      String;
+    Sacado_Rua:       String;
+    Sacado_CEP:       String;
+    Sacado_Cidade:    String;
+    Sacado_Estado:    String;
+    Sacado_CPF_CNPJ:  String;
+    Cod_Baixa:        String;
+    ID_Status:        Integer;
+  end;
+
+
+function Criptografa( sTexto: string ): string;
+function DesCriptografa( sTexto: string ): string;
+function GetTempDir: String;
+
+function RetornaUsuario:   string;
+function RetornaNomModulo: string;
+function RetornaIP:        string;
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// DESCRIÇÃO      : Função que retira caracteres de uma string (a formatação do CNPJ.                   //
+// SINTAXE        : CNPJ_RetiraFormatacao(num: string): string;               //
+// EXEMPLO        : CNPJ_RetiraFormatacao('02.721.311/0001-75');              //
+// AUTOR          : cpad@andreurbano.net                                      //
+// ÚLT. ALTERAÇÃO : 19/02/2003                                                //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetiraCaracter(sTextoOriginal: string; sCaracteresRetirar: string): string;
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Função que calcula e retorna o dígito verificador do ISBN.    //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 23/05/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function CalculaDV_ISBN(sDigitos : string ): string;
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Função que retorna o ISBN.                                    //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 23/05/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetornaISBN(sCodBar : string ): string;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Atualiza variáveis do sistema.                                //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 25/07/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+procedure AtuVariaveisDoSistema;
+
+procedure ExportaDataSet(DataSet: TDataSet; sTipo: string; sArquivo: string);
+
+var
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - SISTEMA.                                  //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ iniSistemaArquivoIni:      TIniFile;       { Arquivo Ini.                       }
+ iniSistemaArquivoIniLocal: TIniFile;       { Arquivo Ini.                       }
+ iniSistemaArquivoIniEmp:   TIniFile;       { Arquivo Ini.                       }
+
+
+ //sSistemaModulo:           string;         { Nome do módulo do sistema.       }
+ sSistemaNome:             string;         { Nome do sistema.                   }
+ sSistemaDescricao:        string;         { Descrição do sistema.              }
+ sSistemaNomArqIni:        string;         { Nome do arq. ini.                  }
+ sSistemaNomArqIniEmp:     string;
+
+
+ sSistemaNomArqIniLocal:   string;         { Nome do arq. ini local.            }
+ sSistemaPath:             string;         { Caminho do executável.             }
+ sSistemaPathTemp:         string;         { Caminho da pasta temporaria.       }
+ iSistemaTentaLogar:       integer;        { Qtde de tentativas de login.       }
+ sArqDadosAtualizador:     string;         { Arquivo de Dados do Atualizador.   }
+ sPathArqDadosAtualizador: string;         { Caminho do Arq. de Dados do Atualizador.}
+ sSistemaAliasName:        string;         { Alias do BD configurado no BDE.}
+ sVersao:                  string;         { Versão}
+
+ UsuarioLogado:         TUsuario;
+ ConexaoBancoDeDados:   TConexaoBD;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS - USUÁRIO.                                              //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sSistemaUsuarioNome:        string;         { Nome completo do usuário.       }
+ sSistemaUsuarioLogin:       string;         { Login do Usuário.               }
+ sSistemaUsuarioSenha:       string;         { Senha do Usuário.               }
+ iSistemaUsuarioMatric:      integer;        { Matrícula do Usuário.           }
+ iSistemaUsuarioCodigo:      integer;        {}
+ iSistemaUsuarioGrupo:       integer;        {}
+ iSistemaUsuarioEquipe:      integer;        {}
+ sSistemaUsuarioGrupoDesc:   string;         {}
+ sSistemaUsuarioResponsavel: string;         {}
+ sSistemaUsuarioApelido:     string;         {}
+ sSistemaUsuarioPrivilegio:  string;         {}
+ sSistemaUsuarioStatus:      string;         {}
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS - EMPRESA.                                              //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sSistemaEmpresaRazaoSocial:   string;
+ sSistemaEmpresaNomeFantasia:  string;
+ sSistemaEmpresaCNPJ:          string;
+ sSistemaEmpresaInscEstadual:  string;
+ sSistemaEmpresaInscMunicipal: string;
+ sSistemaEmpresaEndereco:      string;
+ sSistemaEmpresaTelefone:      string;
+ sSistemaEmpresaSite:          string;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS - RELATÓRIOS.                                           //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ bRelatVisualizar:       boolean;        { Se True mostra preview do relatório.}
+ sTitulo:                string;         { Título do relatório.}
+ sSubTitulo:             string;         { Sub-Título do relatório.}
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS - BANCO DE DADOS.                                       //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sSistemaBD_IP_ou_HostName: String;
+ sSistemaBD_Esquema:        String;
+ sSistemaBD_Usuario:        String;         {}
+ sSistemaBD_Versao:         String;         {}
+
+ dmSistemaModuloDados:     TDataModule;    { Módulo de Dados do Sistema.        }
+ bdSistemaBancoDadosBDE:   TDatabase;      { Banco de Dados do Sistema-BDE.     }
+ bdSistemaBancoDadosDBX:   TSQLConnection; { BD do Sistema-dbExpress.           }
+ bBancoDadosAtualizar:     boolean;        { Se True atualiza tabelas do BD.     }
+ dDtIniCliUltCompra:       TDateTime;      { Data ini da última compra do cliente}
+ dDtFimCliUltCompra:       TDateTime;      { Data fim da última compra do cliente}
+
+
+ ///////////////////////////////////////////////////////////////////////////////
+ // Variáveis Globais Radius.                                                 //
+ ///////////////////////////////////////////////////////////////////////////////
+ sSistemaRADIUSHost:       String;
+ sSistemaRADIUSDriverName: String;
+ sSistemaRADIUSNomeBD:     String;
+ sSistemaRADIUSLogin:      String;
+ sSistemaRADIUSSenha:      String;
+ sSistemaRADIUSPorta:      String;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - BOLETO BANCÁRIO.                          //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ bBoletoGerarNumero:     boolean;        { Se True gera nmeração dos boletos.  }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - IMPRESSORA FISCAL.                        //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sImpFiscalModelo:       string;         { Modelo da impressora fiscal.        }
+ iImpFiscalCodModelo:    integer;        { Cód. do mod. da impressora fiscal.  }
+ sImpFiscalPorta:        string;         { Porta da impressora fiscal.         }
+ iImpFiscalCodPorta:     integer;        { Cód. da porta da impressora fiscal. }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DOS PROGRAMA - FORMULÁRIOS.                             //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis: array of TFormulario;    {Array com todos os forms do sistema. }
+ iIndiceForms:  integer;                 {índice do array de forms.            }
+ iQtdeFormSis:  integer;                 {Quantidade de forms no sistema.      }
+ FormAtivo:     TForm;                    {Formulário Ativo                    }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO MÓDULO FINANCEIRO.                                   //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sNomeDoArquivoRemessa:     string;     {Nome do arquivo de remessa            }
+ sNumSeqArqRemessa:         string;     {Nº da sequencia do arq de remessa.    }
+ sNumRemessaPagEletronico:  string;     {Nº Remessa Pagamento Eletronico.      }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO MÓDULO ENVIO DE EMAIL.                               //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ///XHelpMensagem: TMensagem;                     {Mensagem do XHelp.                  }
+ ///XHelpEmail:    TMensagem;                     {Mensagem de email.                  }
+
+implementation
+
+{
+uses ufrmEmissaoBoletoFaturamento,
+     ufrmEmissaoBoletoMalaDireta,
+     ufrmEtiquetaClienteECT,
+     ufrmCadGrupos,
+     ufrmCadModulos,
+     ufrmCadSetores,
+     ufrmCadUsuarios,
+     ufrmCadUsuariosModulos;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Descrição:                                                                 //
+// Sintaxe:                                                                   //
+// Exemplo                                                                    //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetornaUsuario: string;
+begin
+ //
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                                                            //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetornaNomModulo: string;
+begin
+//
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                                                            //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetornaIP :string;
+//--> Declare a Winsock na clausula uses da unit
+var
+ WSAData: TWSAData;
+ HostEnt: PHostEnt;
+ //Name:    string;
+ Name:    pchar;
+begin
+ WSAStartup(2, WSAData);
+ SetLength(Name, 255);
+ Gethostname(PChar(Name), 255);
+ SetLength(Name, StrLen(PChar(Name)));
+ HostEnt := gethostbyname(PChar(Name));
+ with HostEnt^  do
+      begin
+      Result := Format('%d.%d.%d.%d',
+                [Byte(h_addr^[0]),Byte(h_addr^[1]),
+                Byte(h_addr^[2]),Byte(h_addr^[3])]);
+      end;
+ WSACleanup;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// DESCRIÇÃO      : Função que retira caracteres de uma string (a formatação do CNPJ.                   //
+// SINTAXE        : CNPJ_RetiraFormatacao(num: string): string;               //
+// EXEMPLO        : CNPJ_RetiraFormatacao('02.721.311/0001-75');              //
+// AUTOR          : cpad@andreurbano.net                                      //
+// ÚLT. ALTERAÇÃO : 19/02/2003                                                //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetiraCaracter(sTextoOriginal: string; sCaracteresRetirar: string): string;
+var
+ iTamTxtOri:       integer;
+ iTamCaracteres:   integer;
+ sTextoNovo:       string;
+ sCaracterAtual:   string;
+ sCaracRetirar:    string;
+ I:                integer;
+ J:                integer;
+begin
+
+ iTamTxtOri     := Length(sTextoOriginal);
+ iTamCaracteres := Length(sCaracteresRetirar);
+
+ for I := 1 to iTamTxtOri do
+  begin
+
+    sCaracterAtual := Copy(sTextoOriginal, I, 1);
+
+    for J := 1 to iTamCaracteres do
+     begin
+
+      sCaracRetirar    := Copy(sCaracteresRetirar, J, 1);
+
+      if sCaracterAtual = sCaracRetirar then
+       begin
+        sCaracterAtual := '';
+       end;
+
+
+     end;
+
+    sTextoNovo := sTextoNovo + sCaracterAtual;
+
+  end;
+
+ Result := sTextoNovo;
+
+end;
+
+procedure ExportaDataSet(DataSet: TDataSet; sTipo: string; sArquivo: string);
+var
+ ArqTexto:  TStringList;
+ I:         integer;
+ J:         integer;
+ sRegistro: string;
+begin
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // ATRIBUIÇÃO DAS VARIÁVEIS.                                                 //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArqTexto  := TStringList.Create;
+ sRegistro := '';
+// I         := 0;
+// J         := 0;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // NOME DOS CAMPOS.                                                          //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ for I := 0 to DataSet.FieldCount - 1 do
+  begin
+   sRegistro := sRegistro + DataSet.Fields[I].FieldName  + '|';
+  end;
+ ArqTexto.Add(sRegistro);
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VALORES DOS CAMPOS.                                                       //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ DataSet.First;
+ while not DataSet.EOF do
+  begin
+
+   sRegistro := '';
+   for J := 0 to DataSet.FieldCount - 1 do
+    begin
+     sRegistro := sRegistro + DataSet.Fields[J].AsString + '|';
+    end;
+   ArqTexto.Add(sRegistro);
+
+   DataSet.Next;
+  end;
+
+ ArqTexto.SaveToFile(sArquivo);
+ ArqTexto.Free;
+end;
+
+
+
+{
+procedure AlimentaArrayFormsSis;
+begin
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // DIMENSIONA O ARRAY DE FORMULÁRIOS.                                        //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ iQtdeFormSis := 8;
+ SetLength(ArrayFormsSis, iQtdeFormSis);
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 1 - FORMULÁRIO PARA EMISSÃO DE ETIQUETAS E LISTAGEM DE PACOTES ECT.       //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[0].FormClasse := TfrmEtiquetaClienteECT;
+ ArrayFormsSis[0].FormNome   := 'frmEtiquetaClienteECT';
+ ArrayFormsSis[0].FormVar    := frmEtiquetaClienteECT;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 2 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA MALA DIRETA.        //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[1].FormClasse := TfrmEmissaoBoletoMalaDireta;
+ ArrayFormsSis[1].FormNome   := 'frmEmissaoBoletoMalaDireta';
+ ArrayFormsSis[1].FormVar    := frmEmissaoBoletoMalaDireta;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 3 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[2].FormClasse := TfrmEmissaoBoletoFaturamento;
+ ArrayFormsSis[2].FormNome   := 'frmEmissaoBoletoFaturamento';
+ ArrayFormsSis[2].FormVar    := frmEmissaoBoletoFaturamento;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 4 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[3].FormClasse := TfrmCadGrupos;
+ ArrayFormsSis[3].FormNome   := 'frmCadGrupos';
+ ArrayFormsSis[3].FormVar    := frmCadGrupos;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 5 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[4].FormClasse := TfrmCadModulos;
+ ArrayFormsSis[4].FormNome   := 'frmCadModulos';
+ ArrayFormsSis[4].FormVar    := frmCadModulos;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 6 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[5].FormClasse := TfrmCadSetores;
+ ArrayFormsSis[5].FormNome   := 'frmCadSetores';
+ ArrayFormsSis[5].FormVar    := frmCadSetores;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 7 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[6].FormClasse := TfrmCadUsuarios;
+ ArrayFormsSis[6].FormNome   := 'frmCadUsuarios';
+ ArrayFormsSis[6].FormVar    := frmCadUsuarios;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // 8 - FORMULÁRIO PARA EMISSÃO DE BOLETOS BANCÁRIOS PARA O FATURAMENTO.      //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ ArrayFormsSis[7].FormClasse := TfrmCadUsuariosModulos;
+ ArrayFormsSis[7].FormNome   := 'frmCadUsuariosModulos';
+ ArrayFormsSis[7].FormVar    := frmCadUsuariosModulos;
+end;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Função que calcula e retorna o dígito verificador do ISBN.    //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 23/05/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function CalculaDV_ISBN(sDigitos : string ): string;
+var
+ iMultiplicador:      integer;
+ I:                   integer;
+ iTamString:          integer;
+ iPosicaoNumero:      integer;
+ iNumero:             integer;
+ iSomatorio:          integer;
+ iRestoDaDivisao:     integer;
+ iDigVerificador:     integer;
+ iNumMultiplicado:    integer;
+ sNumMultiplicado:    string;
+begin
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // ATRIBUIÇÕES DE VARIÁVEIS.                                                 //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ iMultiplicador := 3;
+ iTamString     := Length( sDigitos );
+ iPosicaoNumero := iTamString;
+ iSomatorio     := 0;
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // LOOP QUE PROC. OS DÍGITOS PASSADOS NO PARÂMETRO.                          //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ for I := 1 to iTamString do
+  begin
+   /////////////////////////////////////////////////////////////////////////////
+   //                                                                         //
+   // RECEBE Nº DO CÓD. DE BARRAS, INICIANDO DA DIREITA P/ A ESQUERDA E       //
+   // PARA QUE SEJA PROCESSADO.                                               //
+   //                                                                         //
+   /////////////////////////////////////////////////////////////////////////////
+   iNumero             := StrToInt( Copy( sDigitos, iPosicaoNumero, 1) );
+   iNumMultiplicado    := iNumero * iMultiplicador;
+   sNumMultiplicado    := IntToStr( iNumMultiplicado );
+
+   //OBS
+   //if iTamNumMultiplicado = 2 then
+   // begin
+   //  iNumMultiplicado := StrToInt( Copy( sNumMultiplicado, 1, 1) );
+   //  iNumMultiplicado := iNumMultiplicado + StrToInt( Copy( sNumMultiplicado, 2, 1) );
+   // end;
+
+   iSomatorio := iSomatorio + iNumMultiplicado;
+
+   /////////////////////////////////////////////////////////////////////////////
+   //                                                                         //
+   // INCREMENTA O MULTIPLICADOR.                                             //
+   //                                                                         //
+   /////////////////////////////////////////////////////////////////////////////
+   if iMultiplicador = 1 then
+    begin
+     iMultiplicador := 3;
+    end
+   else if iMultiplicador = 3 then
+    begin
+     iMultiplicador := 1;
+    end;
+   /////////////////////////////////////////////////////////////////////////////
+   //                                                                         //
+   // INCREMENTA A VARIÁVEL QUE ARMAZENA A POSIÇÃO DO PRÓXIMO Nº.             //
+   //                                                                         //
+   /////////////////////////////////////////////////////////////////////////////
+   iPosicaoNumero := iPosicaoNumero - 1;
+  end;
+
+ iRestoDaDivisao := iSomatorio mod 10;
+
+ if ( iRestoDaDivisao = 0 )then
+  begin
+   iDigVerificador := 0;
+  end
+ else
+  begin
+   iDigVerificador := 10 - iRestoDaDivisao;
+  end;
+
+
+
+ Result := IntToStr( iDigVerificador );
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Função que retorna o ISBN.                                    //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 23/05/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+function RetornaISBN(sCodBar : string ): string;
+var
+ sISBN_SemDV: string;
+ sISBN_ComDV: string;
+begin
+ sISBN_SemDV := copy(sCodBar, 4, 9);
+ sISBN_ComDV := sISBN_SemDV + CalculaDV_ISBN(sISBN_SemDV);
+ Result      := sISBN_ComDV;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+// Descrição:   Atualiza variáveis do sistema.                                //
+// Sintaxe:                                                                   //
+// Exemplo:                                                                   //
+// Alterado em: 25/07/2003                                                    //
+// Autor:       cpad@andreurbano.net                                          //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+procedure AtuVariaveisDoSistema;
+begin
+
+{
+ sSistemaModulo       := 'GestaoCPAD';
+ sSistemaNomArqIni    := sSistemaModulo + '.ini';
+ sSistemaPath         := ExtractFilePath(Application.ExeName);
+ iniSistemaArquivoIni := TIniFile.Create(sSistemaPath + sSistemaNomArqIni);
+ //sSistemaUsuario      := iniSistemaArquivoIni.ReadString('USUARIO', 'Nome' ,'');
+ sSistemaUsuarioLogin  := iniSistemaArquivoIni.ReadString('USUARIO', 'Login' ,'');
+}
+
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - SISTEMA.                                  //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// iniSistemaArquivoIni     :=     TIniFile;       { Arquivo Ini.                       }
+
+ sSistemaNome             := iniSistemaArquivoIni.ReadString('SISTEMA', 'Nome' ,                   'GestaoCPAD'); { Nome do sistema.                   }
+ sSistemaDescricao        := iniSistemaArquivoIni.ReadString('SISTEMA', 'Descricao' ,              'Sistema de Gestão Corporativo da CPAD.'); { Descrição do sistema.              }
+ sSistemaNomArqIni        := iniSistemaArquivoIni.ReadString('SISTEMA', 'NomArqIni' ,              '');           { Nome do arq. ini do módulo.        }
+ sSistemaPath             := iniSistemaArquivoIni.ReadString('SISTEMA', 'Path' ,                   '');           { Caminho do executável.             }
+ iSistemaTentaLogar       := iniSistemaArquivoIni.ReadInteger('SISTEMA', 'TentaLogar' ,            03);           { Qtde de tentativas de login.       }
+ sArqDadosAtualizador     := iniSistemaArquivoIni.ReadString('SISTEMA', 'ArqDadosAtualizador' ,    '');           { Arquivo de Dados do Atualizador.   }
+ sPathArqDadosAtualizador := iniSistemaArquivoIni.ReadString('SISTEMA', 'PathArqDadosAtualizador' ,'');           { Caminho do Arq. de Dados do Atualizador.}
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - USUÁRIO.                                  //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+ sSistemaUsuarioNome      := iniSistemaArquivoIni.ReadString('USUARIO', 'Nome' ,'');                    { Nome completo do usuário.          }
+ sSistemaUsuarioLogin     := iniSistemaArquivoIni.ReadString('USUARIO', 'Login' ,'');                   { Login do Usuário.                  }
+ sSistemaUsuarioSenha     := iniSistemaArquivoIni.ReadString('USUARIO', 'Senha' ,'');                   { Senha do Usuário.                  }
+// iSistemaUsuarioMatric    := iniSistemaArquivoIni.ReadString('USUARIO', 'Matric' ,'');                  { Matrícula do Usuário.              }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - RELATÓRIOS.                               //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// bRelatVisualizar         :=       boolean;        { Se True mostra preview do relatório.}
+// sTitulo                  :=                string;         { Título do relatório.}
+// sSubTitulo               :=             string;         { Sub-Título do relatório.}
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - BANCO DE DADOS.                           //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// dmSistemaModuloDados     :=     TDataModule;    { Módulo de Dados do Sistema.        }
+// bdSistemaBancoDadosBDE   :=   TDatabase;      { Banco de Dados do Sistema-BDE.     }
+// bdSistemaBancoDados      :=      TSQLConnection; { BD do Sistema-dbExpress.           }
+// bBancoDadosAtualizar     :=     boolean;        { Se True atualiza tabelas do BD.     }
+// dDtIniCliUltCompra       :=       TDateTime;      { Data ini da última compra do cliente}
+// dDtFimCliUltCompra       :=       TDateTime;      { Data fim da última compra do cliente}
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - BOLETO BANCÁRIO.                          //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// bBoletoGerarNumero       :=     boolean;        { Se True gera nmeração dos boletos.  }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO PROGRAMA - IMPRESSORA FISCAL.                        //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// sImpFiscalModelo         :=       string;         { Modelo da impressora fiscal.        }
+// iImpFiscalCodModelo      :=    integer;        { Cód. do mod. da impressora fiscal.  }
+// sImpFiscalPorta          :=        string;         { Porta da impressora fiscal.         }
+// iImpFiscalCodPorta       :=     integer;        { Cód. da porta da impressora fiscal. }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DOS PROGRAMA - FORMULÁRIOS.                             //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// ArrayFormsSis            := array of TFormulario;    {Array com todos os forms do sistema. }
+// iIndiceForms             :=  integer;                 {índice do array de forms.            }
+// iQtdeFormSis             :=  integer;                 {Quantidade de forms no sistema.      }
+// FormAtivo                :=     TForm;                    {Formulário Ativo                    }
+ ///////////////////////////////////////////////////////////////////////////////
+ //                                                                           //
+ // VARIÁVEIS GLOBAIS DO MÓDULO FINANCEIRO.                                   //
+ //                                                                           //
+ ///////////////////////////////////////////////////////////////////////////////
+// sNomeDoArquivoRemessa    :=     string;     {Nome do arquivo de remessa            }
+// sNumSeqArqRemessa        :=         string;     {Nº da sequencia do arq de remessa.    }
+// sNumRemessaPagEletronico :=  string;     {Nº Remessa Pagamento Eletronico.      }
+end;
+
+function Criptografa( sTexto: string ): string;
+var
+  I: Integer;
+begin
+
+  for I := 1 to Length(sTexto) do
+  begin
+    sTexto[I] := chr( 20 XOr Ord(sTexto[I]) );
+  end;
+
+  Result := sTexto;
+end;
+
+
+function DesCriptografa( sTexto: string ): string;
+var
+  I: Integer;
+begin
+
+  for I := 1 to Length(sTexto) do
+  begin
+    sTexto[I] := chr( 20 XOr Ord(sTexto[I]) );
+ end;
+
+ Result := sTexto;
+end;
+
+
+function GetTempDir: String;
+var
+  TempDir: Array[0..255] of Char;
+begin
+  GetTempPath(255, @TempDir);
+  Result := StrPas(TempDir);
+end;
+
+end.
+
+
+
+

@@ -1,0 +1,66 @@
+package ComponentesAU;
+
+{$R *.res}
+{$R 'AppFind.dcr'}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'Componentes Urbano'}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl,
+  dsnap,
+  vcldb,
+  vclx,
+  bdertl,
+  rtl,
+  dbrtl,
+  //Rave50VCL,
+  //Rave75VCL,
+  Rave77VCL,
+  dbexpress;
+
+contains
+  DBGridUrb in 'DBGridUrb.pas',
+  DBNavigatorUrb in 'DBNavigatorUrb.pas',
+  ufrmFiltrar in 'formularios\ufrmFiltrar.pas' {frmFiltrar},
+  ufrmLocalizar in 'formularios\ufrmLocalizar.pas' {frmLocalizar},
+  ClientDataSetUrb in 'ClientDataSetUrb.pas',
+  DataSourceUrb in 'DataSourceUrb.pas',
+  DataSetProviderUrb in 'DataSetProviderUrb.pas',
+  QueryUrb in 'QueryUrb.pas',
+  StoredProcUrb in 'StoredProcUrb.pas',
+  DataBaseUrb in 'DataBaseUrb.pas',
+////  numedit in 'numedit.pas',
+  uBoletoBancario in 'uBoletoBancario.pas',
+  uBanco in 'uBanco.pas',
+  AppFind in 'AppFind.pas',
+  uArqTxtBradesco in 'uArqTxtBradesco.pas';
+
+//  EasyByte_RTF_2_HTML_TLB in '..\..\..\..\..\Arquivos de programas\Borland\Delphi7\Imports\EasyByte_RTF_2_HTML_TLB.pas',
+//  PalmExpense_TLB in '..\..\..\..\..\Arquivos de programas\Borland\Delphi7\Imports\PalmExpense_TLB.pas';
+
+end.
+
+
+
+

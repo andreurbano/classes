@@ -1,0 +1,94 @@
+Espero que esta formula possa te ajudar muito. 
+Se for util para voce agradeca depositando 
+na conta corrente 08866-4  
+      	 Agencia  1380 	
+	 Banco itau (Araraquara ) 
+
+FORMULA DE CALCULO PARA DIGITO VERIFICADOR DO CPF
+
+Multiplique os digitos correspondentes da seguinte forma.
+
+*** PRIMEIRO DIGITO VERIFICADOR DO CPF ******
+
+CPF-----------|
+123.456.789-99
+||| ||| |||
+||| ||| ||2    Exemplo: ( 1 * 10 )
+||| ||| |3              ( 2 *  9 )
+||| ||| 4               ( 3 *  8 )
+||| ||5                 ( 4 *  7 )
+||| |6                  ( 5 *  6 )
+||| 7                   ( 6 *  5 )
+||8                     ( 7 *  4 )
+|9                      ( 8 *  3 )
+10                      ( 9 *  2 )
+
+Faca Soma1 = Soma dos resultados das multiplicacoes.
+Exemplo: Soma1 = ( 1 * 10 )+( 2 * 9 )+( 3 * 8 )+ETC...
+
+Divida o Resultado de Soma1 por 11 
+Exemplo: Divisao1 = Soma1 / 11
+
+Multiplique o Resultado da Divisao por 11
+Exemplo: Multiplica1 = Divisao1 * 11
+
+Faca uma subtracao da Soma1 pela Multiplica1 
+Exemplo: Resto = Soma1 - Multiplica1
+
+Se o resultado (RESTO) for igual a 0 ou igual a 1 o primeiro digito
+do CPF devera ser igual a 0.
+Exemplo: Se Resto = 1 entao Dig1 e igual a 0
+         Se Resto = 0 entao Dig1 e igual a 0
+
+Se o resultado (RESTO) for maior que 1 entao deve-se subtrair o resultado
+(RESTO) de 11 para conseguir o primeiro digito verificador.
+Exemplo: Se Resto = 8 entao Dig1 igual a ( 11 - 8 ) = 3
+Exemplo: Se Resto = 5 entao Dig1 igual a ( 11 - 5 ) = 6
+
+
+
+
+*** SEGUNDO  DIGITO VERIFICADOR DO CPF ******
+
+CPF-----------|
+123.456.789-99   ( Primeiro Digito Verifador multiplicado por 2 )
+||| ||| |||
+||| ||| ||3    Exemplo: ( 1 * 11 )
+||| ||| |4              ( 2 * 10 )
+||| ||| 5               ( 3 *  9 )
+||| ||6                 ( 4 *  8 )
+||| |7                  ( 5 *  7 )
+||| 8                   ( 6 *  6 )
+||9                     ( 7 *  5 )
+|10                     ( 8 *  4 )
+11                      ( 9 *  3 )
+                     ( DIG1 *  2 )
+
+Faca Soma2 = Soma dos resultados das multiplicacoes. Nao se esqueca de
+multiplicar e somar o primeiro digito encontrado por 2. 
+Exemplo: Soma2 = ( 1 * 10 )+( 2 * 9 )+ETC..., ( DIG1 * 2 )
+
+Divida o Resultado de Soma2 por 11 
+Exemplo: Divisao2 = Soma2 / 11
+
+Multiplique o Resultado da Divisao por 11
+Exemplo: Multiplica2 = Divisao2 * 11
+
+Faca uma subtracao da Soma1 pela Multiplica1 
+Exemplo: Resto = Soma2 - Multiplica2
+
+Se o resultado (RESTO) for igual a 0 ou igual a 1 o segundo digito
+do CPF devera ser igual a 0.
+Exemplo: Se Resto = 1 entao Dig2 e igual a 0
+         Se Resto = 0 entao Dig2 e igual a 0
+
+Se o resultado (RESTO) for maior que 1 entao deve-se subtrair o resultado
+(RESTO) de 11 para conseguir o segundo digito verificador.
+Exemplo: Se Resto = 8 entao Dig2 igual a ( 11 - 8 ) = 3
+Exemplo: Se Resto = 5 entao Dig2 igual a ( 11 - 5 ) = 6
+
+
+ATENCAO: Para que o CPF seja valido os dois digitos verificadores devem
+         conferir. 
+
+

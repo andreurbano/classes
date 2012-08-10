@@ -1,0 +1,325 @@
+unit ufrmManutencaoBD;
+
+interface
+
+uses
+  MidasLib,Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ufrmModeloMDIChild, ImgList, ActnList, ComCtrls, Buttons,
+  DBActns, DBCtrls, ExtCtrls, Grids, DBGrids, StdCtrls, Mask,
+  Menus, ToolWin, DBGridUrb, DB, DataSourceUrb, DBClient, ClientDataSetUrb,
+  Provider, DataSetProviderUrb, DBTables, QueryUrb, FMTBcd, SqlExpr,
+  DBClientActns, MConnect, uVariaveisSQL_Gestao;
+
+type
+
+  TfrmManutencaoBD = class(TfrmModeloMDIChild)
+    actManutencaoBD: TActionList;
+    imgManutencaoBD: TImageList;
+    cdsManuBD: TClientDataSetUrb;
+    dtsManuBD: TDataSourceUrb;
+    pnlManutencaoBD: TPanel;
+    pgcManutencaoBD: TPageControl;
+    tbsListagem: TTabSheet;
+    tbsCadastro: TTabSheet;
+    stbManutencaoBD: TStatusBar;
+    pnlBotoes: TPanel;
+    btnIncluir: TSpeedButton;
+    btnAlterar: TSpeedButton;
+    btnConsultar: TSpeedButton;
+    btnExcluir: TSpeedButton;
+    btnAtualizar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    btnSalvar: TSpeedButton;
+    pnlCadastro: TPanel;
+    datasetIncluir: TDataSetInsert;
+    datasetExcluir: TDataSetDelete;
+    datasetAlterar: TDataSetEdit;
+    datasetSalvar: TDataSetPost;
+    datasetCancelar: TDataSetCancel;
+    datasetAtualizar: TDataSetRefresh;
+    datasetAplicar: TClientDataSetApply;
+    ClientDataSetRevert1: TClientDataSetRevert;
+    ClientDataSetUndo1: TClientDataSetUndo;
+    Incluir: TAction;
+    Alterar: TAction;
+    Excluir: TAction;
+    Consultar: TAction;
+    Salvar: TAction;
+    Cancelar: TAction;
+    Atualizar: TAction;
+    btnRelatorios: TSpeedButton;
+    ppmRelatorios: TPopupMenu;
+    N1: TMenuItem;
+    dspManuBD: TDataSetProviderUrb;
+    sqlManuBD: TSQLDataSet;
+    pnlListagem: TPanel;
+    dbgManutencaoBD: TDBGridUrb;
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure IncluirExecute(Sender: TObject);
+    procedure CancelarExecute(Sender: TObject);
+    procedure Acao(iAcao: Integer; bBuscaID: Boolean = True );
+    procedure SalvarExecute(Sender: TObject);
+    procedure AtualizarExecute(Sender: TObject);
+    procedure AlterarExecute(Sender: TObject);
+    procedure ExcluirExecute(Sender: TObject);
+    procedure btnRelatoriosClick(Sender: TObject);
+    procedure ConsultarExecute(Sender: TObject);
+
+    procedure DesabilitaComponentes(Sender: TObject);
+    procedure AbilitaComponentes(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    sCampoIDNome:    string;
+    sTabelaNome:     string;
+  end;
+
+
+var
+  frmManutencaoBD: TfrmManutencaoBD;
+
+implementation
+
+uses ufrmPrincipal;
+
+{$R *.dfm}
+
+
+procedure TfrmManutencaoBD.FormCreate(Sender: TObject);
+begin
+ inherited;
+ cdsManuBD.Active            := True;
+ pgcManutencaoBD.ActivePage  := tbsListagem;
+
+ Self.dbgManutencaoBD.Height := Self.pnlListagem.Height - 8;
+ Self.dbgManutencaoBD.Width  := Self.pnlListagem.Width  - 7;
+
+
+
+end;
+
+procedure TfrmManutencaoBD.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+ inherited;
+ cdsManuBD.Active := False;
+end;
+
+procedure TfrmManutencaoBD.IncluirExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(1); // INCLUIR
+end;
+
+procedure TfrmManutencaoBD.CancelarExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(6); // CANCELAR
+end;
+
+procedure TfrmManutencaoBD.Acao(iAcao: Integer; bBuscaID: Boolean = True );
+begin
+  case iAcao of
+    1:begin  // INCLUIR
+        btnIncluir.Enabled    := False;
+        btnAlterar.Enabled    := False;
+        btnExcluir.Enabled    := False;
+        btnConsultar.Enabled  := False;
+        btnCancelar.Enabled   := True;
+        btnSalvar.Enabled     := True;
+        btnAtualizar.Enabled  := False;
+        btnRelatorios.Enabled := False;
+        pgcManutencaoBD.ActivePage := tbsCadastro;
+        datasetIncluir.Execute;
+      end;
+    2:begin // ALTERAR
+        btnIncluir.Enabled   := False;
+        btnAlterar.Enabled   := False;
+        btnExcluir.Enabled   := False;
+        btnConsultar.Enabled := False;
+        btnCancelar.Enabled  := True;
+        btnSalvar.Enabled    := True;
+        btnAtualizar.Enabled := False;
+        btnRelatorios.Enabled := False;
+        pgcManutencaoBD.ActivePage := tbsCadastro;
+        datasetAlterar.Execute;
+      end;
+    3:begin // EXCLUIR
+
+        if MessageDlg('Você tem certeza que deseja excluir este Registro ?', mtConfirmation, [mbYes,mbNo], 0) = mrYes then
+        begin
+          datasetExcluir.Execute;
+          datasetAplicar.Execute;
+          datasetAtualizar.Execute;
+        end;
+
+      end;
+    4:begin // CONSULTAR
+        btnIncluir.Enabled    := False;
+        btnAlterar.Enabled    := False;
+        btnExcluir.Enabled    := False;
+        btnConsultar.Enabled  := False;
+        btnCancelar.Enabled   := True;
+        btnSalvar.Enabled     := False;
+        btnAtualizar.Enabled  := False;
+        btnRelatorios.Enabled := False;
+        DesabilitaComponentes(Self);
+        pgcManutencaoBD.ActivePage := tbsCadastro;
+
+        // Desabilitar os campos
+
+      end;
+    5:begin  //SALVAR
+        btnIncluir.Enabled    := True;
+        btnAlterar.Enabled    := True;
+        btnExcluir.Enabled    := True;
+        btnConsultar.Enabled  := True;
+        btnCancelar.Enabled   := False;
+        btnSalvar.Enabled     := False;
+        btnAtualizar.Enabled  := True;
+        btnRelatorios.Enabled := True;
+        if (cdsManuBD.State = dsInsert) AND bBuscaID then
+        begin
+          //cdsManuBD.FieldByName(sCampoIDNome).AsInteger := frmPrincipal.SharedConnection.AppServer.RetornaProxReg(sTabelaNome,sCampoIDNome);
+          cdsManuBD.FieldByName(sCampoIDNome).AsInteger := 0; //frmPrincipal.RetornaProxReg(sTabelaNome,sCampoIDNome);
+        end;
+        datasetSalvar.Execute;
+        datasetAplicar.Execute;
+        pgcManutencaoBD.ActivePage := tbsListagem;
+
+// andre 17/03/2007
+//        datasetAtualizar.Execute;
+
+//        cdsManuBD.Refresh;
+      end;
+    6:begin // CANCELAR
+        btnIncluir.Enabled    := True;
+        btnAlterar.Enabled    := True;
+        btnExcluir.Enabled    := True;
+        btnConsultar.Enabled  := True;
+        btnCancelar.Enabled   := False;
+        btnSalvar.Enabled     := False;
+        btnAtualizar.Enabled  := True;
+        btnRelatorios.Enabled := True;
+        datasetCancelar.Execute;
+        AbilitaComponentes(Self);
+        pgcManutencaoBD.ActivePage := tbsListagem;
+      end;
+    7:begin // ATUALIZAR
+        datasetAtualizar.Execute;
+
+      end;
+  else
+      begin
+      end;
+  end;
+
+end;
+
+procedure TfrmManutencaoBD.SalvarExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(5) // SALVAR
+end;
+
+procedure TfrmManutencaoBD.AtualizarExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(7) // ATUALIZAR
+end;
+
+procedure TfrmManutencaoBD.AlterarExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(2) // ALTERAR
+end;
+
+procedure TfrmManutencaoBD.ExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(3) // EXCLUIR
+end;
+
+procedure TfrmManutencaoBD.btnRelatoriosClick(Sender: TObject);
+begin
+  inherited;
+  ppmRelatorios.Popup(Mouse.CursorPos.x, Mouse.Cursorpos.y);
+end;
+
+procedure TfrmManutencaoBD.ConsultarExecute(Sender: TObject);
+begin
+  inherited;
+  Acao(4) // CONSULTAR
+end;
+
+procedure TfrmManutencaoBD.DesabilitaComponentes(Sender: TObject);
+var
+ I: Integer;
+begin
+
+  for I := 0 to Self.ComponentCount -1  do
+  begin
+
+    if (Self.Components[I] is TDBLookupComboBox) then
+    begin
+      TDBLookupComboBox(Self.Components[I]).Enabled := False;
+    end
+    else if (Self.Components[I] is TLabel) then
+    begin
+      TLabel(Self.Components[I]).Enabled := False;
+    end
+    else if (Self.Components[I] is TDBEdit) then
+    begin
+      TDBEdit(Self.Components[I]).Enabled := False;
+    end
+    else if (Self.Components[I] is TButton) then
+    begin
+      TButton(Self.Components[I]).Enabled := False;
+    end
+    else if (Self.Components[I] is TDBMemo) then
+    begin
+      TDBMemo(Self.Components[I]).Enabled := False;
+    end;
+
+  end;
+
+end;
+
+procedure TfrmManutencaoBD.AbilitaComponentes(Sender: TObject);
+var
+ I: Integer;
+begin
+
+  for I := 0 to Self.ComponentCount -1  do
+  begin
+
+    if (Self.Components[I] is TDBLookupComboBox) then
+    begin
+      TDBLookupComboBox(Self.Components[I]).Enabled := True;
+    end
+    else if (Self.Components[I] is TLabel) then
+    begin
+      TLabel(Self.Components[I]).Enabled := True;
+    end
+    else if (Self.Components[I] is TDBEdit) then
+    begin
+      TDBEdit(Self.Components[I]).Enabled := True;
+    end
+    else if (Self.Components[I] is TButton) then
+    begin
+      TButton(Self.Components[I]).Enabled := True;
+    end
+    else if (Self.Components[I] is TDBMemo) then
+    begin
+      TDBMemo(Self.Components[I]).Enabled := True;
+    end;
+
+  end;
+
+end;
+
+
+
+end.

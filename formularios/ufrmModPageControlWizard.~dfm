@@ -1,0 +1,51 @@
+inherited frmModPageControlWizard: TfrmModPageControlWizard
+  Left = 129
+  Top = 119
+  Width = 378
+  Height = 295
+  Caption = 'frmModPageControlWizard'
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  DesignSize = (
+    370
+    268)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnProximo: TSpeedButton
+    Left = 192
+    Top = 234
+    Width = 83
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = '&Pr'#243'ximo >>'
+    OnClick = btnProximoClick
+  end
+  object btnFinalizar: TSpeedButton
+    Left = 278
+    Top = 234
+    Width = 83
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = '&Finalizar'
+    Enabled = False
+  end
+  object btnAnterior: TSpeedButton
+    Left = 106
+    Top = 234
+    Width = 83
+    Height = 25
+    Anchors = [akRight, akBottom]
+    Caption = '<< &Anterior'
+    Enabled = False
+    OnClick = btnAnteriorClick
+  end
+  object pgcMain: TPageControl
+    Left = 8
+    Top = 8
+    Width = 353
+    Height = 218
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Style = tsFlatButtons
+    TabOrder = 0
+  end
+end

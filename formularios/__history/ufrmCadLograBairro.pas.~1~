@@ -1,0 +1,61 @@
+unit ufrmCadLograBairro;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFRMMANUTENCAOBD, Menus, DB, DataSourceUrb, DBClient,
+  ClientDataSetUrb, ImgList, DBClientActns, DBActns, ActnList, Buttons,
+  ComCtrls, Grids, DBGrids, DBGridUrb, ExtCtrls, StdCtrls, Mask, DBCtrls,
+  Provider, DataSetProviderUrb, FMTBcd, SqlExpr;
+
+type
+  TfrmCadLograBairro = class(TfrmManutencaoBD)
+    cdsManuBDID_Bairro: TIntegerField;
+    cdsManuBDDescricao: TStringField;
+    lblDescricao: TLabel;
+    txtDescricao: TDBEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure IncluirExecute(Sender: TObject);
+    procedure AlterarExecute(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadLograBairro: TfrmCadLograBairro;
+
+implementation
+
+uses ufrmPrincipal;
+
+{$R *.dfm}
+
+procedure TfrmCadLograBairro.FormCreate(Sender: TObject);
+begin
+ //                                                                           //
+ sTabelaNome  := 'logra_bairro';
+ sCampoIDNome := 'ID_Logra_Bairro';
+ //                                                                           //
+ //frmPrincipal.sqlDataSet.CommandText := ' SELECT ID_Logra_Bairro, Descricao FROM logra_bairro ';
+ cdsManuBD.CommandText := ' SELECT ID_Logra_Bairro, Descricao FROM logra_bairro ';
+ //                                                                           //
+ inherited;
+
+end;
+
+procedure TfrmCadLograBairro.IncluirExecute(Sender: TObject);
+begin
+ inherited;
+ txtDescricao.SetFocus;
+end;
+
+procedure TfrmCadLograBairro.AlterarExecute(Sender: TObject);
+begin
+ inherited;
+ txtDescricao.SetFocus;
+end;
+
+end.

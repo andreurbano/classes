@@ -1,0 +1,98 @@
+Espero que esta formula possa te ajudar muito. 
+Se for util para voce agradeca depositando 
+na conta corrente 08866-4  
+      	 Agencia  1380 	
+	 Banco itau (Araraquara ) 
+	
+
+FORMULA DE CALCULO PARA DIGITO VERIFICADOR DO CGC
+
+Multiplique os digitos correspondentes da seguinte forma.
+
+*** PRIMEIRO DIGITO VERIFICADOR DO CGC ******
+
+CGC---------------|
+12.345.678/0001-99
+|| ||| ||| ||||        ( 1 *  5 )
+|| ||| ||| |||2        ( 2 *  4 )
+|| ||| ||| ||3         ( 3 *  3 )
+|| ||| ||| |4          ( 4 *  2 )
+|| ||| ||| 5           ( 5 *  9 )
+|| ||| ||6             ( 6 *  8 )
+|| ||| |7              ( 7 *  7 )
+|| ||| 8               ( 8 *  6 )
+|| ||9                 ( 9 *  5 )
+|| |2                  (10 *  4 )
+|| 3                   (11 *  3 )
+|4                     (12 *  2 )
+5
+
+Faca Soma1 = Soma dos resultados das multiplicacoes.
+Exemplo: Soma1 = ( 1 * 5 )+( 2 * 4 )+( 3 * 3 )+ETC...
+
+Divida o Resultado de Soma1 por 11 
+Exemplo: Divisao1 = Soma1 / 11
+
+Multiplique o Resultado da Divisao por 11
+Exemplo: Multiplica1 = Divisao1 * 11
+
+Faca uma subtracao da Soma1 pela Multiplica1 
+Exemplo: Resto = Soma1 - Multiplica1
+
+Se o resultado (RESTO) for igual a 0 ou igual a 1 o primeiro digito
+do CGC devera ser igual a 0.
+Exemplo: Se Resto = 1 entao Dig1 igual a 0
+         Se Resto = 0 entao Dig1 igual a 0
+
+Se o resultado (RESTO) for maior que 1 entao deve-se subtrair o resultado
+(RESTO) de 11 para conseguir o primeiro digito verificador.
+Exemplo: Se Resto = 8 entao Dig1 igual a ( 11 - 8 ) = 3
+Exemplo: Se Resto = 5 entao Dig1 igual a ( 11 - 5 ) = 6
+
+*** SEGUNDO  DIGITO VERIFICADOR DO CGC ******
+
+CGC---------------|
+12.345.678/0001-99   ( Primeiro Digito Verifador multiplicado por 2 ) 
+|| ||| ||| ||||        ( 1 *  6 )
+|| ||| ||| |||3        ( 2 *  5 )
+|| ||| ||| ||4         ( 3 *  4 )
+|| ||| ||| |5          ( 4 *  3 )
+|| ||| ||| 6           ( 5 *  2 )
+|| ||| ||7             ( 6 *  9 )
+|| ||| |8              ( 7 *  8 )
+|| ||| 9               ( 8 *  7 )
+|| ||2                 ( 9 *  6 )
+|| |3                  (10 *  5 )
+|| 4                   (11 *  4 )
+|5                     (12 *  3 )
+6                      ( Dig1 * 2 )
+
+
+Faca Soma2 = Soma dos resultados das multiplicacoes. Nao se esqueca de
+multiplicar e somar o primeiro digito encontrado por 2. 
+Exemplo: Soma2 = ( 1 * 6 )+( 2 * 5 )+ETC..., ( DIG1 * 2 )
+
+Divida o Resultado de Soma2 por 11 
+Exemplo: Divisao2 = Soma2 / 11
+
+Multiplique o Resultado da Divisao por 11
+Exemplo: Multiplica2 = Divisao2 * 11
+
+Faca uma subtracao da Soma1 pela Multiplica1 
+Exemplo: Resto = Soma2 - Multiplica2
+
+Se o resultado (RESTO) for igual a 0 ou igual a 1 o segundo digito
+do CGC devera ser igual a 0.
+Exemplo: Se Resto = 1 entao Dig2 e igual a 0
+         Se Resto = 0 entao Dig2 e igual a 0
+
+Se o resultado (RESTO) for maior que 1 entao deve-se subtrair o resultado
+(RESTO) de 11 para conseguir o segundo digito verificador.
+Exemplo: Se Resto = 8 entao Dig2 igual a ( 11 - 8 ) = 3
+Exemplo: Se Resto = 5 entao Dig2 igual a ( 11 - 5 ) = 6
+
+
+ATENCAO: Para que o CGC seja valido os dois digitos verificadores devem
+         conferir. 
+
+

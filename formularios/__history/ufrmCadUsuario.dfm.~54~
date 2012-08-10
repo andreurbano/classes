@@ -1,0 +1,1415 @@
+inherited frmCadUsuario: TfrmCadUsuario
+  Left = 8
+  Top = 78
+  Caption = 'Cadastro de Usu'#225'rios'
+  ClientHeight = 465
+  ClientWidth = 784
+  ExplicitWidth = 792
+  ExplicitHeight = 492
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pnlManutencaoBD: TPanel
+    Width = 696
+    Height = 431
+    ExplicitWidth = 696
+    ExplicitHeight = 431
+    inherited pgcManutencaoBD: TPageControl
+      Width = 676
+      Height = 413
+      ActivePage = tbsCadastro
+      ExplicitWidth = 676
+      ExplicitHeight = 413
+      inherited tbsListagem: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 668
+        ExplicitHeight = 403
+        inherited pnlListagem: TPanel
+          Width = 668
+          Height = 403
+          ExplicitWidth = 668
+          ExplicitHeight = 403
+          inherited dbgManutencaoBD: TDBGridUrb
+            Width = 666
+            Height = 401
+          end
+        end
+      end
+      inherited tbsCadastro: TTabSheet
+        ExplicitLeft = 4
+        ExplicitTop = 6
+        ExplicitWidth = 668
+        ExplicitHeight = 403
+        inherited Panel1: TPanel
+          Width = 668
+          Height = 403
+          ExplicitWidth = 668
+          ExplicitHeight = 403
+          object gbxLograInstala: TGroupBox
+            Left = 15
+            Top = 175
+            Width = 642
+            Height = 105
+            Caption = 'Endere'#231'o'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+            object Label10: TLabel
+              Left = 15
+              Top = 16
+              Width = 21
+              Height = 13
+              Caption = 'Tipo'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblLogradouro: TLabel
+              Left = 109
+              Top = 16
+              Width = 54
+              Height = 13
+              Caption = 'Logradouro'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblNumero: TLabel
+              Left = 275
+              Top = 16
+              Width = 12
+              Height = 13
+              Caption = 'N'#186
+              FocusControl = txtNumeroLogra
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblComplemento: TLabel
+              Left = 343
+              Top = 16
+              Width = 64
+              Height = 13
+              Caption = 'Complemento'
+              FocusControl = txtComplementoLogra
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblBairro: TLabel
+              Left = 15
+              Top = 58
+              Width = 27
+              Height = 13
+              Caption = 'Bairro'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblCEP: TLabel
+              Left = 209
+              Top = 58
+              Width = 21
+              Height = 13
+              Caption = 'CEP'
+              FocusControl = txtLograCEP
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblCidade: TLabel
+              Left = 274
+              Top = 58
+              Width = 33
+              Height = 13
+              Caption = 'Cidade'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblUF: TLabel
+              Left = 584
+              Top = 58
+              Width = 14
+              Height = 13
+              Caption = 'UF'
+              FocusControl = txtLograUF
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object txtNumeroLogra: TDBEdit
+              Left = 275
+              Top = 32
+              Width = 65
+              Height = 21
+              Color = clWhite
+              DataField = 'Logra_Numero'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 4
+            end
+            object txtComplementoLogra: TDBEdit
+              Left = 343
+              Top = 32
+              Width = 284
+              Height = 21
+              DataField = 'Logra_Complemento'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 5
+            end
+            object txtLograCEP: TDBEdit
+              Left = 209
+              Top = 74
+              Width = 62
+              Height = 21
+              Color = clWhite
+              DataField = 'Logra_CEP'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 8
+            end
+            object txtLograUF: TDBEdit
+              Left = 584
+              Top = 74
+              Width = 43
+              Height = 21
+              Color = clWhite
+              DataField = 'LograUF'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 10
+            end
+            object dblLograTipo: TDBLookupComboBox
+              Left = 15
+              Top = 32
+              Width = 66
+              Height = 21
+              Color = clWhite
+              DataField = 'DescLograTipo'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 0
+            end
+            object dblLogradouro: TDBLookupComboBox
+              Left = 109
+              Top = 32
+              Width = 139
+              Height = 21
+              Color = clWhite
+              DataField = 'DescLogradouro'
+              DataSource = dtsManuBD
+              DropDownRows = 15
+              DropDownWidth = 200
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 2
+            end
+            object dblLograBairro: TDBLookupComboBox
+              Left = 15
+              Top = 75
+              Width = 167
+              Height = 21
+              DataField = 'DescLograBairro'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 6
+            end
+            object txtLograCidade: TDBEdit
+              Left = 275
+              Top = 74
+              Width = 305
+              Height = 21
+              Color = clWhite
+              DataField = 'LograCidade'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 9
+            end
+            object btnLogradouro: TButton
+              Left = 246
+              Top = 32
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Tipos de Logradouros'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 3
+              TabStop = False
+              OnClick = btnLogradouroClick
+              OnExit = btnLogradouroExit
+            end
+            object btnCadLograInstalaTipo: TButton
+              Left = 79
+              Top = 32
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Tipos de Logradouros'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 1
+              TabStop = False
+              OnClick = btnCadLograInstalaTipoClick
+              OnExit = btnCadLograInstalaTipoExit
+            end
+            object btnLograInstalaBairro: TButton
+              Left = 180
+              Top = 75
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Bairros'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 7
+              TabStop = False
+              OnClick = btnLograInstalaBairroClick
+              OnExit = btnLograInstalaBairroExit
+            end
+          end
+          object gbxObs: TGroupBox
+            Left = 15
+            Top = 293
+            Width = 642
+            Height = 95
+            Caption = 'Obs'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+            object memObs: TDBMemo
+              Left = 15
+              Top = 16
+              Width = 614
+              Height = 67
+              DataField = 'Obs'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 0
+            end
+          end
+          object gbxDadosPessoais: TGroupBox
+            Left = 15
+            Top = 8
+            Width = 642
+            Height = 152
+            Caption = 'Dados Pessoais'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+            object Label1: TLabel
+              Left = 199
+              Top = 104
+              Width = 26
+              Height = 13
+              Caption = 'Login'
+              FocusControl = txtLogin
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label2: TLabel
+              Left = 339
+              Top = 104
+              Width = 31
+              Height = 13
+              Caption = 'Senha'
+              FocusControl = txtSenha
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblSetor: TLabel
+              Left = 339
+              Top = 61
+              Width = 25
+              Height = 13
+              Caption = 'Setor'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label5: TLabel
+              Left = 477
+              Top = 104
+              Width = 84
+              Height = 13
+              Caption = 'Confirme a Senha'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label6: TLabel
+              Left = 292
+              Top = 61
+              Width = 30
+              Height = 13
+              Caption = 'Ramal'
+              FocusControl = txtRamal
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label7: TLabel
+              Left = 15
+              Top = 104
+              Width = 25
+              Height = 13
+              Caption = 'Email'
+              FocusControl = txtEmail
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblNome: TLabel
+              Left = 107
+              Top = 16
+              Width = 28
+              Height = 13
+              Caption = 'Nome'
+              FocusControl = txtNome
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblSobreNome: TLabel
+              Left = 199
+              Top = 16
+              Width = 54
+              Height = 13
+              Caption = 'Sobrenome'
+              FocusControl = txtSobreNome
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblCpf_Cnpj: TLabel
+              Left = 412
+              Top = 16
+              Width = 20
+              Height = 13
+              Caption = 'CPF'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblIdent_InscEstado: TLabel
+              Left = 454
+              Top = 61
+              Width = 50
+              Height = 13
+              Caption = 'Identidade'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblTelefone1: TLabel
+              Left = 15
+              Top = 61
+              Width = 76
+              Height = 13
+              Caption = 'Tel. Resid'#234'ncial'
+              FocusControl = txtTelResidencia
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label9: TLabel
+              Left = 107
+              Top = 61
+              Width = 53
+              Height = 13
+              Caption = 'Tel. Celular'
+              FocusControl = txtTelCelPessoal
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object Label3: TLabel
+              Left = 199
+              Top = 61
+              Width = 62
+              Height = 13
+              Caption = 'Tel. Empresa'
+              FocusControl = txtTelCelEmpresa
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblContatoSexo: TLabel
+              Left = 530
+              Top = 16
+              Width = 24
+              Height = 13
+              Caption = 'Sexo'
+              FocusControl = dblSexo
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblContatoTratamento: TLabel
+              Left = 15
+              Top = 16
+              Width = 54
+              Height = 13
+              Caption = 'Tratamento'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object lblOrgaoEmissor: TLabel
+              Left = 530
+              Top = 61
+              Width = 68
+              Height = 13
+              Caption = 'Org'#227'o Emissor'
+              FocusControl = dblOrgaoEmissor
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+            end
+            object txtLogin: TDBEdit
+              Left = 199
+              Top = 120
+              Width = 135
+              Height = 21
+              Color = 13630204
+              DataField = 'Login'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 16
+            end
+            object txtSenha: TDBEdit
+              Left = 339
+              Top = 120
+              Width = 133
+              Height = 21
+              Color = 13630204
+              DataField = 'Senha'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              PasswordChar = '*'
+              TabOrder = 17
+            end
+            object dblSetor: TDBLookupComboBox
+              Left = 339
+              Top = 77
+              Width = 87
+              Height = 21
+              Color = 13630204
+              DataField = 'DescSetor'
+              DataSource = dtsManuBD
+              DropDownWidth = 150
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 10
+            end
+            object txtRamal: TDBEdit
+              Left = 292
+              Top = 77
+              Width = 42
+              Height = 21
+              DataField = 'Ramal'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 9
+            end
+            object txtEmail: TDBEdit
+              Left = 15
+              Top = 120
+              Width = 180
+              Height = 21
+              DataField = 'Email'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 15
+            end
+            object txtNome: TDBEdit
+              Left = 107
+              Top = 32
+              Width = 88
+              Height = 21
+              Color = 13630204
+              DataField = 'Nome'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 2
+            end
+            object txtSobreNome: TDBEdit
+              Left = 199
+              Top = 32
+              Width = 209
+              Height = 21
+              Color = clWhite
+              DataField = 'SobreNome'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 3
+            end
+            object txtCpf: TDBEdit
+              Left = 412
+              Top = 32
+              Width = 114
+              Height = 21
+              Color = clWhite
+              DataField = 'CPF'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 4
+            end
+            object txtIdentidade: TDBEdit
+              Left = 454
+              Top = 77
+              Width = 72
+              Height = 21
+              DataField = 'Identidade'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 12
+            end
+            object txtTelResidencia: TDBEdit
+              Left = 15
+              Top = 77
+              Width = 88
+              Height = 21
+              Color = clWhite
+              DataField = 'TelResidencia'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 6
+            end
+            object txtTelCelPessoal: TDBEdit
+              Left = 107
+              Top = 77
+              Width = 88
+              Height = 21
+              Color = clWhite
+              DataField = 'TelCelPessoal'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 7
+            end
+            object txtTelCelEmpresa: TDBEdit
+              Left = 199
+              Top = 77
+              Width = 88
+              Height = 21
+              Color = clWhite
+              DataField = 'TelCelEmpresa'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 8
+            end
+            object dblSexo: TDBLookupComboBox
+              Left = 530
+              Top = 32
+              Width = 74
+              Height = 21
+              Color = clWhite
+              DataField = 'DescSexo'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 5
+            end
+            object dblTratamento: TDBLookupComboBox
+              Left = 15
+              Top = 32
+              Width = 66
+              Height = 21
+              Color = clWhite
+              DataField = 'DescTratamento'
+              DataSource = dtsManuBD
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 0
+            end
+            object btnCadTratamento: TButton
+              Left = 79
+              Top = 32
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Tratamentos'
+              BiDiMode = bdLeftToRight
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentBiDiMode = False
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 1
+              TabStop = False
+              OnClick = btnCadTratamentoClick
+              OnExit = btnCadTratamentoExit
+            end
+            object txtSenhaConfirma: TMaskEdit
+              Left = 477
+              Top = 120
+              Width = 133
+              Height = 21
+              Color = 13630204
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 19
+            end
+            object dblOrgaoEmissor: TDBLookupComboBox
+              Left = 530
+              Top = 77
+              Width = 74
+              Height = 21
+              DataField = 'DescOrgaoEmissor'
+              DataSource = dtsManuBD
+              DropDownWidth = 120
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              TabOrder = 13
+            end
+            object btnCadSexo: TButton
+              Left = 602
+              Top = 32
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Sexo'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 18
+              TabStop = False
+              OnClick = btnCadSexoClick
+              OnExit = btnCadSexoExit
+            end
+            object btnCadOrgaoEmissor: TButton
+              Left = 602
+              Top = 77
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Org'#227'o Emissor'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 14
+              TabStop = False
+              OnClick = btnCadOrgaoEmissorClick
+              OnExit = btnCadOrgaoEmissorExit
+            end
+            object btnCadSetor: TButton
+              Left = 424
+              Top = 77
+              Width = 23
+              Height = 19
+              Hint = 'Cadastro de Org'#227'o Emissor'
+              Caption = '...'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Sans Serif'
+              Font.Style = []
+              ParentFont = False
+              ParentShowHint = False
+              ShowHint = True
+              TabOrder = 11
+              TabStop = False
+              OnClick = btnCadSetorClick
+              OnExit = btnCadSetorExit
+            end
+          end
+        end
+      end
+    end
+  end
+  inherited stbManutencaoBD: TStatusBar
+    Top = 446
+    Width = 784
+    ExplicitTop = 446
+    ExplicitWidth = 784
+  end
+  inherited pnlBotoes: TPanel
+    Left = 707
+    Height = 431
+    ExplicitLeft = 707
+    ExplicitHeight = 431
+  end
+  inherited cdsManuBD: TClientDataSetUrb
+    CommandText = 
+      'SELECT ID_Usuario,    Login,    Senha,    Nome,    ID_Setor,    ' +
+      'Ramal,    Email,    ID_Emissor_Ident,    CPF,    Identidade,    ' +
+      'TelResidencia,    TelCelPessoal,    TelCelEmpresa,    ID_Sexo,  ' +
+      '  ID_Logra_Tipo,    ID_Logradouro,    Logra_Numero,    ID_Tratam' +
+      'ento,    SobreNome,    Logra_Complemento,    ID_Logra_Bairro,   ' +
+      ' Logra_CEP,    LograCidade,    LograUF,    Obs    FROM usuario u' +
+      ';'
+    object cdsManuBDID_Usuario: TIntegerField
+      Alignment = taLeftJustify
+      DisplayLabel = 'ID. Usu'#225'rio'
+      FieldName = 'ID_Usuario'
+      Required = True
+      DisplayFormat = '000000'
+    end
+    object cdsManuBDNome: TStringField
+      FieldName = 'Nome'
+      Required = True
+      Size = 30
+    end
+    object cdsManuBDSobreNome: TStringField
+      FieldName = 'SobreNome'
+      Size = 30
+    end
+    object cdsManuBDLogin: TStringField
+      FieldName = 'Login'
+      Required = True
+    end
+    object cdsManuBDSenha: TStringField
+      FieldName = 'Senha'
+      Required = True
+      Visible = False
+    end
+    object cdsManuBDID_Setor: TIntegerField
+      FieldName = 'ID_Setor'
+      Required = True
+      Visible = False
+    end
+    object cdsManuBDRamal: TStringField
+      FieldName = 'Ramal'
+      Size = 4
+    end
+    object cdsManuBDEmail: TStringField
+      FieldName = 'Email'
+      Size = 40
+    end
+    object cdsManuBDIdentidade: TStringField
+      FieldName = 'Identidade'
+      Size = 15
+    end
+    object cdsManuBDDescSetor: TStringField
+      DisplayLabel = 'Setor'
+      FieldKind = fkLookup
+      FieldName = 'DescSetor'
+      LookupDataSet = cdsSetor
+      LookupKeyFields = 'ID_Setor'
+      LookupResultField = 'Descricao'
+      KeyFields = 'ID_Setor'
+      Lookup = True
+    end
+    object cdsManuBDID_Emissor_Ident: TIntegerField
+      FieldName = 'ID_Emissor_Ident'
+    end
+    object cdsManuBDCPF: TStringField
+      FieldName = 'CPF'
+      EditMask = '000\.000\.000\-00;0;_'
+      Size = 45
+    end
+    object cdsManuBDTelResidencia: TStringField
+      FieldName = 'TelResidencia'
+      EditMask = '!\(99\)0000-0000;0;_'
+      Size = 11
+    end
+    object cdsManuBDTelCelPessoal: TStringField
+      FieldName = 'TelCelPessoal'
+      EditMask = '!\(99\)0000-0000;0;_'
+      Size = 11
+    end
+    object cdsManuBDTelCelEmpresa: TStringField
+      FieldName = 'TelCelEmpresa'
+      EditMask = '!\(99\)0000-0000;0;_'
+      Size = 11
+    end
+    object cdsManuBDID_Sexo: TIntegerField
+      FieldName = 'ID_Sexo'
+    end
+    object cdsManuBDID_Logra_Tipo: TIntegerField
+      FieldName = 'ID_Logra_Tipo'
+    end
+    object cdsManuBDID_Logradouro: TIntegerField
+      FieldName = 'ID_Logradouro'
+    end
+    object cdsManuBDLogra_Complemento: TStringField
+      FieldName = 'Logra_Complemento'
+      Size = 30
+    end
+    object cdsManuBDID_Logra_Bairro: TIntegerField
+      FieldName = 'ID_Logra_Bairro'
+    end
+    object cdsManuBDLogra_CEP: TStringField
+      FieldName = 'Logra_CEP'
+      Size = 8
+    end
+    object cdsManuBDLograCidade: TStringField
+      FieldName = 'LograCidade'
+      Size = 30
+    end
+    object cdsManuBDLograUF: TStringField
+      FieldName = 'LograUF'
+      Size = 3
+    end
+    object cdsManuBDDescTratamento: TStringField
+      FieldKind = fkLookup
+      FieldName = 'DescTratamento'
+      LookupDataSet = cdsTratamento
+      LookupKeyFields = 'ID_tratamento'
+      LookupResultField = 'Sigla'
+      KeyFields = 'ID_Tratamento'
+      Visible = False
+      Size = 5
+      Lookup = True
+    end
+    object cdsManuBDObs: TBlobField
+      FieldName = 'Obs'
+      Size = 1
+    end
+    object cdsManuBDID_Tratamento: TIntegerField
+      FieldName = 'ID_Tratamento'
+    end
+    object cdsManuBDDescSexo: TStringField
+      DisplayLabel = 'Sexo'
+      DisplayWidth = 15
+      FieldKind = fkLookup
+      FieldName = 'DescSexo'
+      LookupDataSet = cdsSexo
+      LookupKeyFields = 'ID_Sexo'
+      LookupResultField = 'Descricao'
+      KeyFields = 'ID_Sexo'
+      Visible = False
+      Size = 30
+      Lookup = True
+    end
+    object cdsManuBDDescLograTipo: TStringField
+      FieldKind = fkLookup
+      FieldName = 'DescLograTipo'
+      LookupDataSet = cdsLograTipo
+      LookupKeyFields = 'ID_logra_tipo'
+      LookupResultField = 'Sigla'
+      KeyFields = 'ID_Logra_Tipo'
+      Size = 5
+      Lookup = True
+    end
+    object cdsManuBDDescLogradouro: TStringField
+      DisplayLabel = 'Logradouro'
+      FieldKind = fkLookup
+      FieldName = 'DescLogradouro'
+      LookupDataSet = cdsLogradouro
+      LookupKeyFields = 'ID_logradouro'
+      LookupResultField = 'Descricao'
+      KeyFields = 'ID_Logradouro'
+      Visible = False
+      Size = 30
+      Lookup = True
+    end
+    object cdsManuBDDescLograBairro: TStringField
+      DisplayLabel = 'Bairro'
+      FieldKind = fkLookup
+      FieldName = 'DescLograBairro'
+      LookupDataSet = cdsLograBairro
+      LookupKeyFields = 'ID_Logra_Bairro'
+      LookupResultField = 'Descricao'
+      KeyFields = 'ID_Logra_Bairro'
+      Visible = False
+      Size = 30
+      Lookup = True
+    end
+    object cdsManuBDDescOrgaoEmissor: TStringField
+      DisplayLabel = 'Org'#227'o Emissor'
+      FieldKind = fkLookup
+      FieldName = 'DescOrgaoEmissor'
+      LookupDataSet = cdsOrgaoEmissor
+      LookupKeyFields = 'ID_Orgao_Emissor'
+      LookupResultField = 'Descricao'
+      KeyFields = 'ID_Emissor_Ident'
+      Size = 30
+      Lookup = True
+    end
+    object cdsManuBDLogra_Numero: TIntegerField
+      FieldName = 'Logra_Numero'
+    end
+  end
+  inherited ppmRelatorios: TPopupMenu
+    Left = 362
+    Top = 2
+  end
+  inherited sqlManuBD: TSQLDataSet
+    CommandText = 
+      'SELECT ID_Usuario,    Login,    Senha,    Nome,    ID_Setor,    ' +
+      'Ramal,    Email,    ID_Emissor_Ident,    CPF,    Identidade,    ' +
+      'TelResidencia,    TelCelPessoal,    TelCelEmpresa,    ID_Sexo,  ' +
+      '  ID_Logra_Tipo,    ID_Logradouro,    Logra_Numero,    ID_Tratam' +
+      'ento,    SobreNome,    Logra_Complemento,    ID_Logra_Bairro,   ' +
+      ' Logra_CEP,    LograCidade,    LograUF,    Obs    FROM usuario u' +
+      ';'
+  end
+  object cdsSetor: TClientDataSetUrb
+    Aggregates = <>
+    CommandText = 'select ID_Setor, Descricao from setor order by Descricao'
+    Params = <>
+    ProviderName = 'dspSetor'
+    Left = 490
+    Top = 5
+    object cdsSetorID_Setor: TIntegerField
+      FieldName = 'ID_Setor'
+      Required = True
+    end
+    object cdsSetorDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+    end
+  end
+  object sqlSetor: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 436
+    Top = 5
+  end
+  object dspSetor: TDataSetProviderUrb
+    DataSet = sqlSetor
+    Options = [poAllowCommandText]
+    Left = 463
+    Top = 6
+  end
+  object sqlTratamento: TSQLDataSet
+    CommandText = 
+      'SELECT ID_tratamento, Descricao, Sigla FROM tratamento ORDER BY ' +
+      'Descricao;'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 46
+    Top = 6
+  end
+  object dspTratamento: TDataSetProviderUrb
+    DataSet = sqlTratamento
+    Options = [poAllowCommandText]
+    Left = 74
+    Top = 7
+  end
+  object cdsTratamento: TClientDataSetUrb
+    Aggregates = <>
+    CommandText = 
+      'SELECT ID_tratamento, Descricao, Sigla FROM tratamento ORDER BY ' +
+      'Descricao;'
+    Params = <>
+    ProviderName = 'dspTratamento'
+    Left = 102
+    Top = 7
+    object IntegerField1: TIntegerField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'ID_tratamento'
+      Required = True
+      DisplayFormat = '000000'
+    end
+    object StringField1: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+    object cdsTratamentoSigla: TStringField
+      FieldName = 'Sigla'
+      Size = 5
+    end
+  end
+  object sqlSexo: TSQLDataSet
+    CommandText = 'SELECT s.ID_Sexo, s.Descricao FROM sexo s ORDER BY s.Descricao;'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 564
+    Top = 156
+  end
+  object dspSexo: TDataSetProviderUrb
+    DataSet = sqlSexo
+    Options = [poAllowCommandText]
+    Left = 593
+    Top = 156
+  end
+  object cdsSexo: TClientDataSetUrb
+    Aggregates = <>
+    CommandText = 'SELECT s.ID_Sexo, s.Descricao FROM sexo s ORDER BY s.Descricao;'
+    Params = <>
+    ProviderName = 'dspSexo'
+    Left = 621
+    Top = 156
+    object cdsSexoID_Sexo: TIntegerField
+      FieldName = 'ID_Sexo'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsSexoDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+  end
+  object sqlLograTipo: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 74
+    Top = 168
+  end
+  object dspLograTipo: TDataSetProviderUrb
+    DataSet = sqlLograTipo
+    Options = [poAllowCommandText]
+    Left = 102
+    Top = 168
+  end
+  object cdsLograTipo: TClientDataSetUrb
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspLograTipo'
+    Left = 130
+    Top = 168
+    object cdsLograTipoID_logra_tipo: TIntegerField
+      FieldName = 'ID_logra_tipo'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsLograTipoDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+    object cdsLograTipoSigla: TStringField
+      FieldName = 'Sigla'
+      Required = True
+      Size = 5
+    end
+  end
+  object sqlLogradouro: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 177
+    Top = 170
+  end
+  object dspLogradouro: TDataSetProviderUrb
+    DataSet = sqlLogradouro
+    Options = [poAllowCommandText]
+    Left = 205
+    Top = 170
+  end
+  object cdsLogradouro: TClientDataSetUrb
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspLogradouro'
+    Left = 233
+    Top = 170
+    object cdsLogradouroID_logradouro: TIntegerField
+      FieldName = 'ID_logradouro'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsLogradouroDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+  end
+  object sqlLograBairro: TSQLDataSet
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 49
+    Top = 310
+  end
+  object dspLograBairro: TDataSetProviderUrb
+    DataSet = sqlLograBairro
+    Options = [poAllowCommandText]
+    Left = 77
+    Top = 310
+  end
+  object cdsLograBairro: TClientDataSetUrb
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspLograBairro'
+    Left = 105
+    Top = 310
+    object cdsLograBairroID_Logra_Bairro: TIntegerField
+      FieldName = 'ID_Logra_Bairro'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object cdsLograBairroDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+  end
+  object sqlOrgaoEmissor: TSQLDataSet
+    CommandText = 'select ID_Setor, Descricao from setor order by Descricao'
+    DbxCommandType = 'Dbx.SQL'
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = frmPrincipal.ConexaoBD
+    Left = 652
+    Top = 18
+  end
+  object dspOrgaoEmissor: TDataSetProviderUrb
+    DataSet = sqlOrgaoEmissor
+    Options = [poAllowCommandText]
+    Left = 679
+    Top = 19
+  end
+  object cdsOrgaoEmissor: TClientDataSetUrb
+    Aggregates = <>
+    CommandText = 
+      'SELECT o.ID_Orgao_Emissor, o.Descricao FROM orgao_emissor o ORDE' +
+      'R BY o.Descricao;'
+    Params = <>
+    ProviderName = 'dspSetor'
+    Left = 706
+    Top = 18
+    object cdsOrgaoEmissorID_Orgao_Emissor: TIntegerField
+      FieldName = 'ID_Orgao_Emissor'
+      Required = True
+    end
+    object cdsOrgaoEmissorDescricao: TStringField
+      FieldName = 'Descricao'
+      Required = True
+      Size = 30
+    end
+  end
+end

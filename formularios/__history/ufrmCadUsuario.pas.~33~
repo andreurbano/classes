@@ -1,0 +1,348 @@
+unit ufrmCadUsuario;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, UFRMMANUTENCAOBD, Menus, DB, DataSourceUrb, DBClient,
+  ClientDataSetUrb, ImgList, DBClientActns, DBActns, ActnList, Buttons,
+  ComCtrls, Grids, DBGrids, DBGridUrb, ExtCtrls, StdCtrls, Mask, DBCtrls,
+  Provider, DataSetProviderUrb, FMTBcd, SqlExpr, uVariaveisSQL_Gestao;
+
+type
+  TfrmCadUsuario = class(TfrmManutencaoBD)
+    cdsManuBDID_Usuario: TIntegerField;
+    cdsManuBDLogin: TStringField;
+    cdsManuBDSenha: TStringField;
+    cdsManuBDID_Setor: TIntegerField;
+    cdsManuBDRamal: TStringField;
+    cdsSetor: TClientDataSetUrb;
+    cdsSetorID_Setor: TIntegerField;
+    cdsSetorDescricao: TStringField;
+    cdsManuBDDescSetor: TStringField;
+    sqlSetor: TSQLDataSet;
+    dspSetor: TDataSetProviderUrb;
+    gbxLograInstala: TGroupBox;
+    Label10: TLabel;
+    lblLogradouro: TLabel;
+    lblNumero: TLabel;
+    lblComplemento: TLabel;
+    lblBairro: TLabel;
+    lblCEP: TLabel;
+    lblCidade: TLabel;
+    lblUF: TLabel;
+    txtNumeroLogra: TDBEdit;
+    txtComplementoLogra: TDBEdit;
+    txtLograCEP: TDBEdit;
+    txtLograUF: TDBEdit;
+    dblLograTipo: TDBLookupComboBox;
+    btnCadLograInstalaTipo: TButton;
+    btnLograInstalaBairro: TButton;
+    btnLogradouro: TButton;
+    dblLogradouro: TDBLookupComboBox;
+    dblLograBairro: TDBLookupComboBox;
+    gbxObs: TGroupBox;
+    memObs: TDBMemo;
+    txtLograCidade: TDBEdit;
+    cdsManuBDNome: TStringField;
+    cdsManuBDEmail: TStringField;
+    cdsManuBDID_Emissor_Ident: TIntegerField;
+    cdsManuBDCPF: TStringField;
+    cdsManuBDIdentidade: TStringField;
+    cdsManuBDTelResidencia: TStringField;
+    cdsManuBDTelCelPessoal: TStringField;
+    cdsManuBDTelCelEmpresa: TStringField;
+    cdsManuBDID_Sexo: TIntegerField;
+    cdsManuBDID_Logra_Tipo: TIntegerField;
+    cdsManuBDID_Logradouro: TIntegerField;
+    cdsManuBDSobreNome: TStringField;
+    cdsManuBDLogra_Complemento: TStringField;
+    cdsManuBDID_Logra_Bairro: TIntegerField;
+    cdsManuBDLogra_CEP: TStringField;
+    cdsManuBDLograCidade: TStringField;
+    cdsManuBDLograUF: TStringField;
+    cdsManuBDObs: TBlobField;
+    sqlTratamento: TSQLDataSet;
+    dspTratamento: TDataSetProviderUrb;
+    cdsTratamento: TClientDataSetUrb;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    cdsTratamentoSigla: TStringField;
+    cdsManuBDDescTratamento: TStringField;
+    cdsManuBDID_Tratamento: TIntegerField;
+    sqlSexo: TSQLDataSet;
+    dspSexo: TDataSetProviderUrb;
+    cdsSexo: TClientDataSetUrb;
+    cdsSexoID_Sexo: TIntegerField;
+    cdsSexoDescricao: TStringField;
+    cdsManuBDDescSexo: TStringField;
+    sqlLograTipo: TSQLDataSet;
+    dspLograTipo: TDataSetProviderUrb;
+    cdsLograTipo: TClientDataSetUrb;
+    cdsLograTipoID_logra_tipo: TIntegerField;
+    cdsLograTipoDescricao: TStringField;
+    cdsLograTipoSigla: TStringField;
+    sqlLogradouro: TSQLDataSet;
+    dspLogradouro: TDataSetProviderUrb;
+    cdsLogradouro: TClientDataSetUrb;
+    cdsLogradouroID_logradouro: TIntegerField;
+    cdsLogradouroDescricao: TStringField;
+    sqlLograBairro: TSQLDataSet;
+    dspLograBairro: TDataSetProviderUrb;
+    cdsLograBairro: TClientDataSetUrb;
+    cdsLograBairroID_Logra_Bairro: TIntegerField;
+    cdsLograBairroDescricao: TStringField;
+    cdsManuBDDescLograTipo: TStringField;
+    cdsManuBDDescLograBairro: TStringField;
+    cdsManuBDDescLogradouro: TStringField;
+    sqlOrgaoEmissor: TSQLDataSet;
+    dspOrgaoEmissor: TDataSetProviderUrb;
+    cdsOrgaoEmissor: TClientDataSetUrb;
+    cdsOrgaoEmissorID_Orgao_Emissor: TIntegerField;
+    cdsOrgaoEmissorDescricao: TStringField;
+    cdsManuBDDescOrgaoEmissor: TStringField;
+    cdsManuBDLogra_Numero: TIntegerField;
+    gbxDadosPessoais: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    lblSetor: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    lblNome: TLabel;
+    lblSobreNome: TLabel;
+    lblCpf_Cnpj: TLabel;
+    lblIdent_InscEstado: TLabel;
+    lblTelefone1: TLabel;
+    Label9: TLabel;
+    Label3: TLabel;
+    lblContatoSexo: TLabel;
+    lblContatoTratamento: TLabel;
+    lblOrgaoEmissor: TLabel;
+    txtLogin: TDBEdit;
+    txtSenha: TDBEdit;
+    dblSetor: TDBLookupComboBox;
+    txtRamal: TDBEdit;
+    txtEmail: TDBEdit;
+    txtNome: TDBEdit;
+    txtSobreNome: TDBEdit;
+    txtCpf: TDBEdit;
+    txtIdentidade: TDBEdit;
+    txtTelResidencia: TDBEdit;
+    txtTelCelPessoal: TDBEdit;
+    txtTelCelEmpresa: TDBEdit;
+    btnCadSexo: TButton;
+    dblSexo: TDBLookupComboBox;
+    dblTratamento: TDBLookupComboBox;
+    btnCadTratamento: TButton;
+    txtSenhaConfirma: TMaskEdit;
+    dblOrgaoEmissor: TDBLookupComboBox;
+    btnCadOrgaoEmissor: TButton;
+    btnCadSetor: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure IncluirExecute(Sender: TObject);
+    procedure AlterarExecute(Sender: TObject);
+    procedure btnLogradouroClick(Sender: TObject);
+    procedure btnLogradouroExit(Sender: TObject);
+    procedure btnCadLograInstalaTipoClick(Sender: TObject);
+    procedure btnCadLograInstalaTipoExit(Sender: TObject);
+    procedure btnLograInstalaBairroClick(Sender: TObject);
+    procedure btnLograInstalaBairroExit(Sender: TObject);
+    procedure btnCadTratamentoClick(Sender: TObject);
+    procedure btnCadTratamentoExit(Sender: TObject);
+    procedure btnCadSexoClick(Sender: TObject);
+    procedure btnCadSexoExit(Sender: TObject);
+    procedure btnCadOrgaoEmissorClick(Sender: TObject);
+    procedure btnCadSetorClick(Sender: TObject);
+    procedure btnCadSetorExit(Sender: TObject);
+    procedure btnCadOrgaoEmissorExit(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmCadUsuario: TfrmCadUsuario;
+
+implementation
+
+uses ufrmPrincipal,
+     ufrmCadTipoLograduro,
+     ufrmCadTratamento,
+     ufrmCadSexo,
+     ufrmCadLogradouro,
+     ufrmCadLograBairro,
+     ufrmCadSetor,
+     ufrmCadOrgaoEmissor,
+     uVariaveisGlobais;
+
+{$R *.dfm}
+
+procedure TfrmCadUsuario.FormCreate(Sender: TObject);
+begin
+ //
+ sTabelaNome  := 'usuario';
+ sCampoIDNome := 'ID_Usuario';
+
+ // Alimenta e atualiza o ClientDataSet cdsTratamento.
+ cdsTratamento.Active := False;
+ cdsTratamento.CommandText := sTratamentoSelect;
+ cdsTratamento.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsSetor.
+ cdsSetor.Active := False;
+ cdsSetor.CommandText := sSetorSelect;
+ cdsSetor.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsSexo.
+ cdsSexo.Active := False;
+ cdsSexo.CommandText := sSexoSelect;
+ cdsSexo.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsLograTipo.
+ cdsLograTipo.Active := False;
+ cdsLograTipo.CommandText := sLogra_TipoSelect;
+ cdsLograTipo.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsLogradouro.
+ cdsLogradouro.Active := False;
+ cdsLogradouro.CommandText := sLogradouroSelect;
+ cdsLogradouro.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsLograBairro.
+ cdsLograBairro.Active := False;
+ cdsLograBairro.CommandText := sLogra_BairroSelect;
+ cdsLograBairro.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsLograBairro.
+ cdsOrgaoEmissor.Active := False;
+ cdsOrgaoEmissor.CommandText := sOrgao_EmissorSelect;
+ cdsOrgaoEmissor.Active := True;
+
+ // Alimenta e atualiza o ClientDataSet cdsManuBD (Usuários).
+ cdsManuBD.CommandText := sUsuarioSelect;
+
+ inherited;
+end;
+
+procedure TfrmCadUsuario.IncluirExecute(Sender: TObject);
+begin
+ inherited;
+ //
+ dblTratamento.SetFocus;
+end;
+
+procedure TfrmCadUsuario.AlterarExecute(Sender: TObject);
+begin
+ inherited;
+ //
+ dblTratamento.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnLogradouroClick(Sender: TObject);
+begin
+ inherited;
+ //
+ Application.CreateForm(TfrmCadLogradouro, frmCadLogradouro);
+end;
+
+procedure TfrmCadUsuario.btnLogradouroExit(Sender: TObject);
+begin
+ inherited;
+ //
+ cdsLogradouro.Refresh;
+ dblLogradouro.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnCadLograInstalaTipoClick(Sender: TObject);
+begin
+ inherited;
+ //
+ Application.CreateForm(TfrmCadTipoLograduro, frmCadTipoLograduro);
+end;
+
+procedure TfrmCadUsuario.btnCadLograInstalaTipoExit(Sender: TObject);
+begin
+ inherited;
+ //
+ cdsLograTipo.Refresh;
+ dblLograTipo.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnCadOrgaoEmissorClick(Sender: TObject);
+begin
+  inherited;
+ // Executa o cadastro de Orgão Emissor.
+ Application.CreateForm(TfrmCadOrgaoEmissor, frmCadOrgaoEmissor);
+end;
+
+procedure TfrmCadUsuario.btnCadOrgaoEmissorExit(Sender: TObject);
+begin
+  inherited;
+ //
+ cdsOrgaoEmissor.Refresh;
+ dblOrgaoEmissor.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnLograInstalaBairroClick(Sender: TObject);
+begin
+ inherited;
+ // Executa o cadastro de bairros dos Logradouros.
+ Application.CreateForm(TfrmCadLograBairro, frmCadLograBairro);
+end;
+
+procedure TfrmCadUsuario.btnLograInstalaBairroExit(Sender: TObject);
+begin
+ inherited;
+ //
+ cdsLograBairro.Refresh;
+ dblLograBairro.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnCadTratamentoClick(Sender: TObject);
+begin
+ inherited;
+ // Executa o cadastro de tratamentos.
+ Application.CreateForm(TfrmCadTratamento, frmCadTratamento);
+end;
+
+procedure TfrmCadUsuario.btnCadTratamentoExit(Sender: TObject);
+begin
+ inherited;
+ //
+ cdsTratamento.Refresh;
+ dblTratamento.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnCadSetorClick(Sender: TObject);
+begin
+  inherited;
+  // Executa o cadastro de Setores.
+  Application.CreateForm(TfrmCadSetor, frmCadSetor);
+end;
+
+procedure TfrmCadUsuario.btnCadSetorExit(Sender: TObject);
+begin
+  inherited;
+  //
+//  cdsSetor.Refresh;
+  dblSetor.SetFocus;
+end;
+
+procedure TfrmCadUsuario.btnCadSexoClick(Sender: TObject);
+begin
+  inherited;
+  // Executa o cadastro de sexos.
+  Application.CreateForm(TfrmCadSexo, frmCadSexo);
+end;
+
+procedure TfrmCadUsuario.btnCadSexoExit(Sender: TObject);
+begin
+ inherited;
+ //
+ cdsSexo.Refresh;
+ dblSexo.SetFocus;
+end;
+
+end.

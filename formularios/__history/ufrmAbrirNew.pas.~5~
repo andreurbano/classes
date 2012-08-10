@@ -1,0 +1,402 @@
+unit ufrmAbrirNew;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ufrmModeloMDIChild, Buttons, StdCtrls, DB, DataSourceUrb,
+  Provider, DataSetProviderUrb, DBTables, QueryUrb, DBClient,
+  ClientDataSetUrb, DBCtrls, uVariaveisGlobais, FMTBcd, SqlExpr;
+
+type
+  TfrmAbrirNew = class(TfrmModeloMDIChild)
+    lblSelecioneSetor: TLabel;
+    lblSelecioneModulo: TLabel;
+    cbxSetor: TDBLookupComboBox;
+    cbxGrupo: TDBLookupComboBox;
+    lbxAbrirModulo: TDBLookupListBox;
+    cdsGrupo: TClientDataSetUrb;
+    dtsGrupo: TDataSourceUrb;
+    cdsModulo: TClientDataSetUrb;
+    dtsModulo: TDataSourceUrb;
+    cdsSetor: TClientDataSetUrb;
+    dtsSetor: TDataSourceUrb;
+    cdsSetorID_Setor: TIntegerField;
+    cdsSetorDescricao: TStringField;
+    cdsGrupoID_Grupo: TIntegerField;
+    cdsGrupoID_Setor: TIntegerField;
+    cdsGrupoDescricao: TStringField;
+    cdsModuloID_Usuario_Modulo: TIntegerField;
+    cdsModuloID_Usuario: TIntegerField;
+    cdsModuloID_Modulo: TIntegerField;
+    cdsModuloID_Setor: TIntegerField;
+    cdsModuloID_Grupo: TIntegerField;
+    cdsModuloDescricao: TStringField;
+    cdsModuloNome_Form: TStringField;
+    dspSetor: TDataSetProviderUrb;
+    dspGrupo: TDataSetProviderUrb;
+    dspModulo: TDataSetProviderUrb;
+    btnAbrir: TBitBtn;
+    sqlSetor: TSQLDataSet;
+    sqlGrupo: TSQLDataSet;
+    sqlModulo: TSQLDataSet;
+    procedure FormCreate(Sender: TObject);
+    procedure cbxSetorClick(Sender: TObject);
+    procedure cbxGrupoClick(Sender: TObject);
+    procedure lbxAbrirModuloDblClick(Sender: TObject);
+    procedure btnAbrirClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+procedure MostraFormulario(sNomeForm: string);
+
+var
+  frmAbrirNew: TfrmAbrirNew;
+
+implementation
+
+uses ufrmCadUsuario,
+     ufrmCadSetor,
+     ufrmCadModulo,
+     ufrmCadGrupo,
+     ufrmCadModuloUsuario,
+     ufrmCadCliente,
+     ufrmCadSexo,
+     ufrmCadResiduo,
+     ufrmCadEstadoFisico,
+     ufrmCadAcond,
+     ufrmCadOrigem,
+     ufrmCadProcedencia,
+     ufrmCadTratDisp,
+     ufrmCadManifesto,
+     ufrmCadUnidadeMedida,
+     ufrmCadManifestoEstado,
+     ufrmCadCargo,
+     ufrmCadPessoa,
+     ufrmCadTipoEmpresa,
+     ufrmCadResponsavel,
+     ufrmCadEmpresa,
+     ufrmCadTratamento,
+     ufrmRelatRetiradaResiduo,
+     ufrmEfetivaEnvioManifesto,
+     ufrmCancEfetivaEnvioManif,
+     ufrmCadPeriodoNumero,
+     ufrmCadTitRelat,
+     ufrmGeraProtocolo,
+     ufrmCadNomeFantasia,
+     ufrmEmissaoFatura,
+     ufrmLocalizaManifesto,
+     ufrmRelatListaCDFPendentes,
+     ufrmAlteraNumCDFsManifesto,
+     ufrmRelatoriosMensais,
+     ufrmModeloRelatWizard,
+     ufrmRelatFechaMensalRetResiduo,
+     ufrmCadNotaFiscal;
+
+{$R *.dfm}
+
+procedure TfrmAbrirNew.FormCreate(Sender: TObject);
+begin
+  inherited;
+ //
+ cdsSetor.CommandText := ' SELECT DISTINCT '                     +
+                                         '          M.ID_Setor, '                +
+                                         '          S.Descricao '                +
+                                         ' FROM     usuario_modulo U, '          +
+                                         '          modulo M, '                  +
+                                         '          setor S '                    +
+                                         ' WHERE    U.ID_Usuario = ' + IntToStr(iSistemaUsuarioMatric) +
+                                         '   AND    U.ID_Modulo  = M.ID_Modulo ' +
+                                         '   AND    M.ID_Setor   = S.ID_Setor '  +
+                                         ' ORDER BY 2 ';
+ cdsSetor.Active := True;
+end;
+
+procedure TfrmAbrirNew.cbxSetorClick(Sender: TObject);
+begin
+  inherited;
+ //
+ cdsModulo.Active := False;
+ cdsGrupo.CommandText := ' SELECT DISTINCT ' +
+                                         '          M.ID_Grupo, ' +
+                                         '          M.ID_Setor, ' +
+                                         '          G.Descricao ' +
+                                         ' FROM     usuario_modulo U, ' +
+                                         '          modulo M, ' +
+                                         '          grupo G ' +
+                                         ' WHERE    U.ID_Usuario = ' + IntToStr(iSistemaUsuarioMatric) +
+                                         '   AND    M.ID_Setor   = ' + IntToStr(cdsSetorID_Setor.AsInteger) +
+                                         '   AND    U.ID_Modulo  = M.ID_Modulo ' +
+                                         '   AND    M.ID_Grupo   = G.ID_Grupo ' +
+                                         ' ORDER BY 3 ';
+ cdsGrupo.Active := False;
+ cdsGrupo.Active := True;
+
+end;
+
+procedure TfrmAbrirNew.cbxGrupoClick(Sender: TObject);
+begin
+  inherited;
+ //                                                                           //
+ cdsModulo.Active := False;
+ cdsModulo.CommandText := ' SELECT U.*, ' +
+                                         '        M.ID_Setor, ' +
+                                         '        M.ID_Grupo, ' +
+                                         '        M.Descricao, ' +
+                                         '        M.Nome_Form ' +
+                                         ' FROM   usuario_modulo U, ' +
+                                         '        modulo M ' +
+                                         ' WHERE  U.ID_Usuario = ' + IntToStr(iSistemaUsuarioMatric) +
+                                         '   AND  U.ID_Modulo  = M.ID_Modulo ' +
+                                         '   AND  M.ID_Setor   = ' + IntToStr(cdsSetorID_Setor.AsInteger) +
+                                         '   AND  M.ID_Grupo   = ' + IntToStr(cdsGrupoID_Grupo.AsInteger) +
+                                         ' ORDER BY M.Descricao ';
+ cdsModulo.Active := True;
+end;
+
+procedure TfrmAbrirNew.lbxAbrirModuloDblClick(Sender: TObject);
+begin
+  inherited;
+  MostraFormulario(cdsModuloNome_Form.Value);
+end;
+
+procedure TfrmAbrirNew.btnAbrirClick(Sender: TObject);
+begin
+  inherited;
+  MostraFormulario(cdsModuloNome_Form.Value);
+end;
+
+procedure TfrmAbrirNew.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  cdsSetor.Active := False;
+  cdsGrupo.Active  := False;
+  cdsModulo.Active := False;
+end;
+
+procedure MostraFormulario(sNomeForm: string);
+var
+ Componente: TComponent;
+ Tela      : TForm;
+begin
+ // 1 - FORMULÁRIO PARA CADASTRO DE USUÁRIOS.
+ if sNomeForm = 'frmCadUsuario' then
+  begin
+   Application.CreateForm(TfrmCadUsuario, frmCadUsuario);
+  end
+
+ // 2 - FORMULÁRIO PARA CADASTRO DE SETORES.
+ else if sNomeForm = 'frmCadSetor' then
+  begin
+   Application.CreateForm(TfrmCadSetor, frmCadSetor);
+  end
+
+ // 3 - FORMULÁRIO PARA PARA CADASTRO DE MÓDULOS.
+ else if sNomeForm = 'frmCadModulo' then
+  begin
+   Application.CreateForm(TfrmCadModulo, frmCadModulo);
+  end
+
+ // 4 - FORMULÁRIO PARA CADASTRO DE GRUPOS DOS MÓDULOS DO SISTEMA.
+ else if sNomeForm = 'frmCadGrupo' then
+  begin
+   Application.CreateForm(TfrmCadGrupo, frmCadGrupo);
+  end
+
+ // 5 - FORMULÁRIO PARA CADASTRO DE MÓDULOS PARA USUÁRIOS.
+ else if sNomeForm = 'frmCadModuloUsuario' then
+  begin
+   Application.CreateForm(TfrmCadModuloUsuario, frmCadModuloUsuario);
+  end
+
+ // 6 - FORMULÁRIO PARA CADASTRO DE CLIENTES.
+ else if sNomeForm = 'frmCadClientes' then
+  begin
+   Application.CreateForm(TfrmCadCliente, frmCadCliente);
+  end
+
+ // 7 - FORMULÁRIO PARA CADASTRO DE SEXOS.
+ else if sNomeForm = 'frmCadSexo' then
+  begin
+   Application.CreateForm(TfrmCadSexo, frmCadSexo);
+  end
+
+ // 8 - FORMULÁRIO PARA CADASTRO DE RESIDUOS.
+ else if sNomeForm = 'frmCadResiduo' then
+  begin
+   Application.CreateForm(TfrmCadResiduo, frmCadResiduo);
+  end
+
+ // 9 - FORMULÁRIO PARA CADASTRO DE ESTADO FÍSICO.
+ else if sNomeForm = 'frmCadEstadoFisico' then
+  begin
+   Application.CreateForm(TfrmCadEstadoFisico, frmCadEstadoFisico);
+  end
+
+ // 10 - FORMULÁRIO PARA CADASTRO DE ACONDICIONAMENTO.
+ else if sNomeForm = 'frmCadAcond' then
+  begin
+   Application.CreateForm(TfrmCadAcond, frmCadAcond);
+  end
+
+ // 11 - FORMULÁRIO PARA CADASTRO DE ORIGEM.
+ else if sNomeForm = 'frmCadOrigem' then
+  begin
+   Application.CreateForm(TfrmCadOrigem, frmCadOrigem);
+  end
+
+ // 12 - FORMULÁRIO PARA CADASTRO DE PROCÊDENCIA.
+ else if sNomeForm = 'frmCadProcedencia' then
+  begin
+   Application.CreateForm(TfrmCadProcedencia, frmCadProcedencia);
+  end
+
+ // 13 - FORMULÁRIO PARA CADASTRO DE TRATAMENTO/DISPOSIÇÃO.
+ else if sNomeForm = 'frmCadTratDisp' then
+  begin
+   Application.CreateForm(TfrmCadTratDisp, frmCadTratDisp);
+  end
+
+ // 14 - FORMULÁRIO PARA CADASTRO DE MANIFESTO DE RESÍDUOS.
+ else if sNomeForm = 'frmCadManifesto' then
+  begin
+   Application.CreateForm(TfrmCadManifesto, frmCadManifesto);
+  end
+
+ // 15 - FORMULÁRIO PARA CADASTRO DE UNIDADES DE MEDIDA.
+ else if sNomeForm = 'frmCadUnidadeMedida' then
+  begin
+   Application.CreateForm(TfrmCadUnidadeMedida, frmCadUnidadeMedida);
+  end
+
+ // 16 - FORMULÁRIO PARA CADASTRO DE STATUS DO MANIFESTO.
+ else if sNomeForm = 'frmCadManifestoEstado' then
+  begin
+   Application.CreateForm(TfrmCadManifestoEstado, frmCadManifestoEstado);
+  end
+
+ // 17 - FORMULÁRIO PARA CADASTRO DE CARGOS.
+ else if sNomeForm = 'frmCadCargo' then
+  begin
+    Application.CreateForm(TfrmCadCargo, frmCadCargo);
+  end
+
+ // 18 - FORMULÁRIO PARA CADASTRO DE CLASSIFICAÇÃO.
+ else if sNomeForm = 'frmCadTipoEmpresa' then
+  begin
+    Application.CreateForm(TfrmCadTipoEmpresa, frmCadTipoEmpresa);
+  end
+
+ // 19 - FORMULÁRIO PARA CADASTRO DE RESPONSÁVEIS.
+ else if sNomeForm = 'frmCadResponsavel' then
+  begin
+    Application.CreateForm(TfrmCadResponsavel, frmCadResponsavel);
+  end
+
+ // 20 - FORMULÁRIO PARA CADASTRO DE EMPRESAS.
+ else if sNomeForm = 'frmCadEmpresa' then
+  begin
+   Application.CreateForm(TfrmCadEmpresa, frmCadEmpresa);
+  end
+
+ // 21 - FORMULÁRIO PARA CADASTRO DE TRATAMENTOS.
+ else if sNomeForm = 'frmCadTratamento' then
+  begin
+   Application.CreateForm(TfrmCadTratamento, frmCadTratamento);
+  end
+
+ // 22 - RELATÓRIO DE RETIRADA DE RESÍDUOS.
+ else if sNomeForm = 'frmRelatRetiradaResiduo' then
+  begin
+    Application.CreateForm(TfrmRelatRetiradaResiduo,frmRelatRetiradaResiduo);
+  end
+
+ // 23 - FORMULÁRIO PARA EFETIVAR O ENVIO DO MANIFESTO.
+ else if sNomeForm = 'frmEfetivaEnvioManifesto' then
+  begin
+   Application.CreateForm(TfrmEfetivaEnvioManifesto, frmEfetivaEnvioManifesto);
+  end
+
+ // 24 - FORMULÁRIO PARA CANCELAR EFETIVAÇÃO DE ENVIO DO MANIFESTO.
+ else if sNomeForm = 'frmCancEfetivaEnvioManif' then
+  begin
+   Application.CreateForm(TfrmCancEfetivaEnvioManif, frmCancEfetivaEnvioManif);
+  end
+
+ // 25
+ else if sNomeForm = 'frmCadPeriodoNumero' then
+  begin
+   Application.CreateForm(TfrmCadPeriodoNumero, frmCadPeriodoNumero);
+  end
+
+ // 26
+ else if sNomeForm = 'frmCadTitRelat' then
+  begin
+   Application.CreateForm(TfrmCadTitRelat, frmCadTitRelat);
+  end
+
+ // 27
+ else if sNomeForm = 'frmGeraProtocolo' then
+  begin
+   Application.CreateForm(TfrmGeraProtocolo, frmGeraProtocolo);
+  end
+
+ // 28
+ else if sNomeForm = 'frmCadNomeFantasia' then
+  begin
+   Application.CreateForm(TfrmCadNomeFantasia, frmCadNomeFantasia);
+  end
+
+ // 29 - FORMULÁRIO PARA EMISSÃO DE FATURAS.
+ else if sNomeForm = 'frmEmissaoFatura' then
+  begin
+   Application.CreateForm(TfrmEmissaoFatura, frmEmissaoFatura);
+   //frmEmissaoFatura.Top := 7;
+  end
+
+ // 30 - LOCALIZA MANIFESTO.
+ else if sNomeForm = 'frmLocalizaManifesto' then
+  begin
+   Application.CreateForm(TfrmLocalizaManifesto, frmLocalizaManifesto);
+  end
+
+ // 31 - RELATÓRIO - LISTAGEM DE CDF's PENDENTES.
+ else if sNomeForm = 'frmRelatListaCDFPendentes' then
+  begin
+   Application.CreateForm(TfrmRelatListaCDFPendentes, frmRelatListaCDFPendentes);
+   frmRelatListaCDFPendentes.Top := 20;
+  end
+
+ // 32 - FORMULÁRIO PARA ALTERAÇÃO DO Nº DO CDF DO MANIFESTO.
+ else if sNomeForm = 'frmAlteraNumCDFsManifesto' then
+  begin
+   Application.CreateForm(TfrmAlteraNumCDFsManifesto, frmAlteraNumCDFsManifesto);
+  end
+
+ // 33 - FORMULÁRIO DE RELATÓRIOS MENSAIS.
+ else if sNomeForm = 'frmModeloRelatWizard' then
+  begin
+     Application.CreateForm(TfrmModeloRelatWizard, frmModeloRelatWizard);
+  end
+
+ // 34 - FORMULÁRIO DE CAD NF.
+ else if sNomeForm = 'frmCadNotaFiscal' then
+  begin
+     Application.CreateForm(TfrmCadNotaFiscal, frmCadNotaFiscal);
+  end
+
+end;
+
+procedure TfrmAbrirNew.BitBtn1Click(Sender: TObject);
+begin
+ inherited;
+ MostraFormulario(cdsModuloNome_Form.Value);
+end;
+
+end.
+
