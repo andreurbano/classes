@@ -29,7 +29,7 @@ inherited frmManutencaoBD: TfrmManutencaoBD
       Top = 7
       Width = 372
       Height = 246
-      ActivePage = tbsCadastro
+      ActivePage = tbsListagem
       Anchors = [akLeft, akTop, akRight, akBottom]
       MultiLine = True
       Style = tsButtons
@@ -81,8 +81,6 @@ inherited frmManutencaoBD: TfrmManutencaoBD
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
-          Color = 13429977
-          ParentBackground = False
           TabOrder = 0
         end
       end

@@ -864,6 +864,7 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
     Top = 18
   end
   object cdsManifestos: TClientDataSetUrb
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspManifestos'

@@ -584,7 +584,7 @@ begin
       begin
 //        Self.Canvas.Brush.Color:=$00FFEFDF; // define uma cor de fundo
 //        Self.Canvas.Brush.Color:=$0079CE9B; // define uma cor de fundo
-        Self.Canvas.Brush.Color:=$00CCECD9; // define uma cor de fundo
+        Self.Canvas.Brush.Color:=$00A2DDB9; // define uma cor de fundo
 
           Self.Canvas.FillRect(Rect); // pinta a célula
         Self.DefaultDrawDataCell(rect,Column.Field,State); // pinta o texto padrão

@@ -29,7 +29,7 @@ inherited frmManutencaoBD: TfrmManutencaoBD
       Top = 7
       Width = 372
       Height = 246
-      ActivePage = tbsCadastro
+      ActivePage = tbsListagem
       Anchors = [akLeft, akTop, akRight, akBottom]
       MultiLine = True
       Style = tsButtons
@@ -81,8 +81,6 @@ inherited frmManutencaoBD: TfrmManutencaoBD
           Align = alClient
           BevelInner = bvRaised
           BevelOuter = bvLowered
-          Color = 13429977
-          ParentBackground = False
           TabOrder = 0
         end
       end
@@ -109,8 +107,6 @@ inherited frmManutencaoBD: TfrmManutencaoBD
     Anchors = [akTop, akRight, akBottom]
     BevelInner = bvRaised
     BevelOuter = bvLowered
-    Color = 13429977
-    ParentBackground = False
     TabOrder = 2
     object btnIncluir: TSpeedButton
       Left = 6
@@ -310,7 +306,7 @@ inherited frmManutencaoBD: TfrmManutencaoBD
     Left = 334
     Top = 2
     Bitmap = {
-      494C01010A000C0014001A001A00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010A000C0010001A001A00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000680000004E0000000100200000000000C07E
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
