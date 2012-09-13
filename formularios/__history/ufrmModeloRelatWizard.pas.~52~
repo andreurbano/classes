@@ -381,10 +381,8 @@ var
  sSQL:                    TStringList;
 
  SQL:                    TSQLDataSet;
+ dValorTotalReciclaveis: Double;
  sValorTotalReciclaveis: String;
- sQtdeTotalReciclaveis:  String;
- sTitulo:                String;
- sSubTitulo:             String;
 
  iCodEmpresaGeradora: Integer;
 begin
@@ -510,8 +508,8 @@ begin
      SQL := TSQLDataSet.Create(self);
      SQL.SQLConnection := frmPrincipal.ConexaoBD;
      SQL.CommandText := ' SELECT '                                                  +
-                        '          SUM( m.Quantidade * (IF(m.GerID_Empresa=27, 200.00, r.ValorMercado)) * 1000) AS ValorTotal, ' +
-                        '          SUM(m.Quantidade) AS QtdeTotal '                 +
+//                                          '          SUM(m.Quantidade * r.ValorMercado * 1000) AS ValorTotal ' +
+                        '          SUM( m.Quantidade * (IF(m.GerID_Empresa=27, 200.00, r.ValorMercado)) * 1000) AS ValorTotal ' +
                         ' FROM '                                                    +
                         '          manifesto m, '                                   +
                         '          residuo r, '                                     +
@@ -539,9 +537,15 @@ begin
 
      SQL.Active := True;
 
-     sValorTotalReciclaveis := FormatFloat('R$ ###,##0.00', SQL.FieldByName('ValorTotal').AsFloat);
+//     dValorTotalReciclaveis := SQL.FieldByName('ValorTotal').AsFloat;
+     dValorTotalReciclaveis := SQL.FieldByName('ValorTotal').Value;
+
+     sValorTotalReciclaveis :=  FormatFloat('R$ ###,##0.00', SQL.FieldByName('ValorTotal').AsFloat);
      sValorTotalReciclaveis := sValorTotalReciclaveis + ' (' + Extenso( SQL.FieldByName('ValorTotal').AsFloat ) + ') ';
-     sQtdeTotalReciclaveis  := FormatFloat('###,##0.000 Ton', SQL.FieldByName('QtdeTotal').AsFloat);
+
+
+//     sValorTotalReciclaveis :=  SQL.FieldByName('ValorTotal').AsString;
+//     sValorTotalReciclaveis :=  FormatFloat('R$ ###,##0.00', SQL.FieldByName('ValorTotal').AsFloat);
 
      FreeAndNil(SQL);
 
@@ -638,10 +642,11 @@ begin
                                           '          ( m.ID_Status            = me.ID_ManifestoEstado ) ' +
                                           sOrderBy;
   // Retirar
-  //sSQL := TStringList.Create;
-  //sSQL.Text := sqlManifestos.CommandText;
-  //sSQL.SaveToFile('c:\sistemas\aa.sql');
-  //FreeAndNil(sSQL);
+  sSQL := TStringList.Create;
+  sSQL.Text := sqlManifestos.CommandText;
+  sSQL.SaveToFile('c:\sistemas\aa.sql');
+
+  FreeAndNil(sSQL);
 
 
   cdsManifestos.Active := True;
@@ -711,7 +716,7 @@ begin
      frmPrincipal.rvpGestao_Empresarial.SetParam('sCaminhoArqAssDig', sCaminhoArqAssDig );
    end;
 
-  //
+  //                                                                          //
   if cbxRelatorios.ItemIndex = 0 then
    begin
      frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptListaManifPorEmpRecep');
@@ -722,29 +727,10 @@ begin
    end
   else if cbxRelatorios.ItemIndex = 2 then
    begin
-     sTitulo    := 'RESTITUIÇÃO COLETA SELETIVA';
-     sSubTitulo := 'NO PERÍODO DE ' + txtDataInicial.Text + ' ATÉ ' + txtDataFinal.Text;
-
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sTitulo', Trim(sTitulo) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sSubTitulo', Trim(sSubTitulo) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sValorTotalReciclaveis', Trim(sValorTotalReciclaveis) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sQtdeTotalReciclaveis', Trim(sQtdeTotalReciclaveis) );
-
-     //frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptPagamentoReciclaveis');
-     frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptNovoPagamentoReciclaveis');
-
-
+     frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptPagamentoReciclaveis');
    end
   else if cbxRelatorios.ItemIndex = 3 then
    begin
-
-     sTitulo    := 'DEMOSTRATIVO DE RETIRA DE RESÍDUOS';
-     sSubTitulo := 'NO PERÍODO DE ' + txtDataInicial.Text + ' ATÉ ' + txtDataFinal.Text;
-
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sTitulo', sTitulo );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sSubTitulo', sSubTitulo );
-
-
      frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptNovoFechamentoMensal');
 
    end;

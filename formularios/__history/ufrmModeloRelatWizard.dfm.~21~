@@ -1006,7 +1006,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
     end
     object cdsManifestosValorReceber: TFMTBCDField
       FieldName = 'ValorReceber'
-      DisplayFormat = '###,##0.00'
       Precision = 32
     end
   end

@@ -45,10 +45,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
     object tbsOpcoes: TTabSheet
       Caption = 'Op'#231#245'es'
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         431
         394)
@@ -357,10 +353,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
       Caption = 'Empresa Geradora'
       ImageIndex = 1
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbxEmpresaGeradora: TGroupBox
         Left = 0
         Top = 0
@@ -488,10 +480,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
       Caption = 'Empresa Receptora'
       ImageIndex = 2
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbxEmpresaReceptora: TGroupBox
         Left = 0
         Top = 0
@@ -619,10 +607,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
       Caption = 'Situa'#231#227'o do Manifesto'
       ImageIndex = 3
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbxSituacaoManifesto: TGroupBox
         Left = 0
         Top = 0
@@ -750,10 +734,6 @@ inherited frmModeloRelatWizard: TfrmModeloRelatWizard
       Caption = 'Res'#237'duo'
       ImageIndex = 4
       TabVisible = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object gbxResiduo: TGroupBox
         Left = 0
         Top = 0

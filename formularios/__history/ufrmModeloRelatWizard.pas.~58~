@@ -638,10 +638,11 @@ begin
                                           '          ( m.ID_Status            = me.ID_ManifestoEstado ) ' +
                                           sOrderBy;
   // Retirar
-  //sSQL := TStringList.Create;
-  //sSQL.Text := sqlManifestos.CommandText;
-  //sSQL.SaveToFile('c:\sistemas\aa.sql');
-  //FreeAndNil(sSQL);
+  sSQL := TStringList.Create;
+  sSQL.Text := sqlManifestos.CommandText;
+  sSQL.SaveToFile('c:\sistemas\aa.sql');
+
+  FreeAndNil(sSQL);
 
 
   cdsManifestos.Active := True;
@@ -725,10 +726,12 @@ begin
      sTitulo    := 'RESTITUIÇÃO COLETA SELETIVA';
      sSubTitulo := 'NO PERÍODO DE ' + txtDataInicial.Text + ' ATÉ ' + txtDataFinal.Text;
 
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sTitulo', Trim(sTitulo) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sSubTitulo', Trim(sSubTitulo) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sValorTotalReciclaveis', Trim(sValorTotalReciclaveis) );
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sQtdeTotalReciclaveis', Trim(sQtdeTotalReciclaveis) );
+     frmPrincipal.rvpGestao_Empresarial.SetParam('sTitulo', sTitulo );
+     frmPrincipal.rvpGestao_Empresarial.SetParam('sSubTitulo', sSubTitulo );
+     frmPrincipal.rvpGestao_Empresarial.SetParam('sValorTotalReciclaveis', sValorTotalReciclaveis );
+     frmPrincipal.rvpGestao_Empresarial.SetParam('sQtdeTotalReciclaveis', sQtdeTotalReciclaveis );
+
+
 
      //frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptPagamentoReciclaveis');
      frmPrincipal.rvpGestao_Empresarial.ExecuteReport('rptNovoPagamentoReciclaveis');
