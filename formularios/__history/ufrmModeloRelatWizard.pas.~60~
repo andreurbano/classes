@@ -725,10 +725,6 @@ begin
      sTitulo    := 'RESTITUIÇÃO COLETA SELETIVA';
      sSubTitulo := 'NO PERÍODO DE ' + txtDataInicial.Text + ' ATÉ ' + txtDataFinal.Text;
 
-
-
-
-     frmPrincipal.rvpGestao_Empresarial.SetParam('sUsuarioNome', Trim(sSistemaUsuarioNome) );
      frmPrincipal.rvpGestao_Empresarial.SetParam('sTitulo', Trim(sTitulo) );
      frmPrincipal.rvpGestao_Empresarial.SetParam('sSubTitulo', Trim(sSubTitulo) );
      frmPrincipal.rvpGestao_Empresarial.SetParam('sValorTotalReciclaveis', Trim(sValorTotalReciclaveis) );
